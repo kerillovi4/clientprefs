@@ -38,7 +38,7 @@ namespace clientprefs
 
         public void SetClientCookie(int cookieId, ulong accountId, string value)
         {
-            if(_validCookieIds.Contains(cookieId))
+            if(_validCookieIds.Contains(cookieId) == false)
             {
                 return;
             }
@@ -57,23 +57,6 @@ namespace clientprefs
             }
 
             _databaseContext.SaveChanges();
-        }
-
-        public string GetClientCookie(int cookieId, ulong accountId)
-        {
-            if(_validCookieIds.Contains(cookieId))
-            {
-                return string.Empty;
-            }
-
-            UserCookie? userCookie = _databaseContext.UsersCookie.FirstOrDefault(x => x.cookieId == cookieId && x.accountId == accountId);
-
-            if(userCookie == null)
-            {
-                return string.Empty;
-            }
-            
-            return userCookie.value;
         }
     }
 }

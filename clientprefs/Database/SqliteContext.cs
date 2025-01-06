@@ -9,9 +9,8 @@ namespace clientprefs.Database
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-#if DEBUG
-            optionsBuilder.UseSqlite(string.Format("Data Source=clientprefs.db"));
-#else
+            string query;
+
             string path = Path.Combine(Main.Instance.BaseDir, "database");
 
             if(Directory.Exists(path) == false)
@@ -19,8 +18,13 @@ namespace clientprefs.Database
                 Directory.CreateDirectory(path);
             }
 
-            optionsBuilder.UseSqlite(string.Format("Data Source={0}", Path.Combine(path, string.Concat(AppSettings.Instance.database, ".db"))));
+#if DEBUG
+            query = string.Format("Data Source={0}", Path.Combine(path, "clientprefs.db"));
+#else
+            query = string.Format("Data Source={0}", Path.Combine(path, string.Concat(AppSettings.Instance.database, ".db")));
 #endif
+
+            optionsBuilder.UseSqlite(query);
         }
     }
 }
