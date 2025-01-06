@@ -10,6 +10,160 @@ namespace s2sdk {
 #pragma warning disable CS0649
 
 	/// <summary>
+	/// Enum representing the possible teams in Counter-Strike.
+	/// </summary>
+	public enum CSTeam : int
+	{
+		/// <summary>
+		/// No team.
+		/// </summary>
+		None = 0,
+		/// <summary>
+		/// Spectator team.
+		/// </summary>
+		Spectator = 1,
+		/// <summary>
+		/// Terrorist team.
+		/// </summary>
+		T = 2,
+		/// <summary>
+		/// Counter-Terrorist team.
+		/// </summary>
+		CT = 3,
+	}
+
+	/// <summary>
+	/// Enum representing various flags for ConVars and ConCommands.
+	/// </summary>
+	public enum ConVarFlag : long
+	{
+		/// <summary>
+		/// The default, no flags at all.
+		/// </summary>
+		None = 0,
+		/// <summary>
+		/// Linked to a ConCommand.
+		/// </summary>
+		LinkedConcommand = 1,
+		/// <summary>
+		/// Hidden in released products. Automatically removed if ALLOW_DEVELOPMENT_CVARS is defined.
+		/// </summary>
+		DevelopmentOnly = 2,
+		/// <summary>
+		/// Defined by the game DLL.
+		/// </summary>
+		GameDll = 4,
+		/// <summary>
+		/// Defined by the client DLL.
+		/// </summary>
+		ClientDll = 8,
+		/// <summary>
+		/// Hidden. Doesn't appear in find or auto-complete. Like DEVELOPMENTONLY but cannot be compiled out.
+		/// </summary>
+		Hidden = 16,
+		/// <summary>
+		/// Server cvar; data is not sent since it's sensitive (e.g., passwords).
+		/// </summary>
+		Protected = 32,
+		/// <summary>
+		/// This cvar cannot be changed by clients connected to a multiplayer server.
+		/// </summary>
+		SpOnly = 64,
+		/// <summary>
+		/// Saved to vars.rc.
+		/// </summary>
+		Archive = 128,
+		/// <summary>
+		/// Notifies players when changed.
+		/// </summary>
+		Notify = 256,
+		/// <summary>
+		/// Changes the client's info string.
+		/// </summary>
+		UserInfo = 512,
+		/// <summary>
+		/// Hides the cvar from lookups.
+		/// </summary>
+		Missing0 = 1024,
+		/// <summary>
+		/// If this is a server cvar, changes are not logged to the file or console.
+		/// </summary>
+		Unlogged = 2048,
+		/// <summary>
+		/// Hides the cvar from lookups.
+		/// </summary>
+		Missing1 = 4096,
+		/// <summary>
+		/// Server-enforced setting on clients.
+		/// </summary>
+		Replicated = 8192,
+		/// <summary>
+		/// Only usable in singleplayer/debug or multiplayer with sv_cheats.
+		/// </summary>
+		Cheat = 16384,
+		/// <summary>
+		/// Causes auto-generated varnameN for splitscreen slots.
+		/// </summary>
+		PerUser = 32768,
+		/// <summary>
+		/// Records this cvar when starting a demo file.
+		/// </summary>
+		Demo = 65536,
+		/// <summary>
+		/// Excluded from demo files.
+		/// </summary>
+		DontRecord = 131072,
+		/// <summary>
+		/// Reserved for future use.
+		/// </summary>
+		Missing2 = 262144,
+		/// <summary>
+		/// Cvars tagged with this are available to customers.
+		/// </summary>
+		Release = 524288,
+		/// <summary>
+		/// Marks the cvar as a menu bar item.
+		/// </summary>
+		MenuBarItem = 1048576,
+		/// <summary>
+		/// Reserved for future use.
+		/// </summary>
+		Missing3 = 2097152,
+		/// <summary>
+		/// Cannot be changed by a client connected to a server.
+		/// </summary>
+		NotConnected = 4194304,
+		/// <summary>
+		/// Enables fuzzy matching for vconsole.
+		/// </summary>
+		VconsoleFuzzyMatching = 8388608,
+		/// <summary>
+		/// The server can execute this command on clients.
+		/// </summary>
+		ServerCanExecute = 16777216,
+		/// <summary>
+		/// Allows clients to execute this command.
+		/// </summary>
+		ClientCanExecute = 33554432,
+		/// <summary>
+		/// The server cannot query this cvar's value.
+		/// </summary>
+		ServerCannotQuery = 67108864,
+		/// <summary>
+		/// Sets focus in the vconsole.
+		/// </summary>
+		VconsoleSetFocus = 134217728,
+		/// <summary>
+		/// IVEngineClient::ClientCmd can execute this command.
+		/// </summary>
+		ClientCmdCanExecute = 268435456,
+		/// <summary>
+		/// Executes the cvar every tick.
+		/// </summary>
+		ExecutePerTick = 536870912,
+	}
+
+	/// <summary>
 	/// Enum representing the possible results of an operation.
 	/// </summary>
 	public enum ResultType : int
@@ -30,6 +184,112 @@ namespace s2sdk {
 		/// The action processing is halted, and no further steps will be executed.
 		/// </summary>
 		Stop = 3,
+	}
+
+	/// <summary>
+	/// Enum representing various movement types for entities.
+	/// </summary>
+	public enum MoveType : int
+	{
+		/// <summary>
+		/// Never moves.
+		/// </summary>
+		None = 0,
+		/// <summary>
+		/// Previously isometric movement type.
+		/// </summary>
+		Isometric = 1,
+		/// <summary>
+		/// Player only - moving on the ground.
+		/// </summary>
+		Walk = 2,
+		/// <summary>
+		/// No gravity, but still collides with stuff.
+		/// </summary>
+		Fly = 3,
+		/// <summary>
+		/// Flies through the air and is affected by gravity.
+		/// </summary>
+		Flygravity = 4,
+		/// <summary>
+		/// Uses VPHYSICS for simulation.
+		/// </summary>
+		Vphysics = 5,
+		/// <summary>
+		/// No clip to world, push and crush.
+		/// </summary>
+		Push = 6,
+		/// <summary>
+		/// No gravity, no collisions, still has velocity/avelocity.
+		/// </summary>
+		Noclip = 7,
+		/// <summary>
+		/// Used by players only when going onto a ladder.
+		/// </summary>
+		Ladder = 8,
+		/// <summary>
+		/// Observer movement, depends on player's observer mode.
+		/// </summary>
+		Observer = 9,
+		/// <summary>
+		/// Allows the entity to describe its own physics.
+		/// </summary>
+		Custom = 10,
+	}
+
+	/// <summary>
+	/// Enum representing rendering modes for materials.
+	/// </summary>
+	public enum RenderMode : sbyte
+	{
+		/// <summary>
+		/// Standard rendering mode (src).
+		/// </summary>
+		Normal = 0,
+		/// <summary>
+		/// Composite: c*a + dest*(1-a).
+		/// </summary>
+		TransColor = 1,
+		/// <summary>
+		/// Composite: src*a + dest*(1-a).
+		/// </summary>
+		TransTexture = 2,
+		/// <summary>
+		/// Composite: src*a + dest -- No Z buffer checks -- Fixed size in screen space.
+		/// </summary>
+		Glow = 3,
+		/// <summary>
+		/// Composite: src*srca + dest*(1-srca).
+		/// </summary>
+		TransAlpha = 4,
+		/// <summary>
+		/// Composite: src*a + dest.
+		/// </summary>
+		TransAdd = 5,
+		/// <summary>
+		/// Not drawn, used for environmental effects.
+		/// </summary>
+		Environmental = 6,
+		/// <summary>
+		/// Uses a fractional frame value to blend between animation frames.
+		/// </summary>
+		TransAddFrameBlend = 7,
+		/// <summary>
+		/// Composite: src + dest*(1-a).
+		/// </summary>
+		TransAlphaAdd = 8,
+		/// <summary>
+		/// Same as Glow but not fixed size in screen space.
+		/// </summary>
+		WorldGlow = 9,
+		/// <summary>
+		/// No rendering.
+		/// </summary>
+		None = 10,
+		/// <summary>
+		/// Developer visualizer rendering mode.
+		/// </summary>
+		DevVisualizer = 11,
 	}
 
 	/// <summary>
@@ -192,6 +452,120 @@ namespace s2sdk {
 		DoNotEcho = 2,
 	}
 
+	/// <summary>
+	/// Enum representing the possible flags of a timer.
+	/// </summary>
+	public enum TimerFlag : int
+	{
+		/// <summary>
+		/// Timer with no unique properties.
+		/// </summary>
+		Default = 0,
+		/// <summary>
+		/// Timer will repeat until stopped.
+		/// </summary>
+		Repeat = 1,
+		/// <summary>
+		/// Timer will not carry over mapchanges.
+		/// </summary>
+		NoMapChange = 2,
+	}
+
+	/// <summary>
+	/// Enum representing the possible reasons for a round ending in Counter-Strike.
+	/// </summary>
+	public enum CSRoundEndReason : int
+	{
+		/// <summary>
+		/// Target successfully bombed.
+		/// </summary>
+		TargetBombed = 1,
+		/// <summary>
+		/// The VIP has escaped (not present in CS:GO).
+		/// </summary>
+		VIPEscaped = 2,
+		/// <summary>
+		/// VIP has been assassinated (not present in CS:GO).
+		/// </summary>
+		VIPKilled = 3,
+		/// <summary>
+		/// The terrorists have escaped.
+		/// </summary>
+		TerroristsEscaped = 4,
+		/// <summary>
+		/// The CTs have prevented most of the terrorists from escaping.
+		/// </summary>
+		CTStoppedEscape = 5,
+		/// <summary>
+		/// Escaping terrorists have all been neutralized.
+		/// </summary>
+		TerroristsStopped = 6,
+		/// <summary>
+		/// The bomb has been defused.
+		/// </summary>
+		BombDefused = 7,
+		/// <summary>
+		/// Counter-Terrorists win.
+		/// </summary>
+		CTWin = 8,
+		/// <summary>
+		/// Terrorists win.
+		/// </summary>
+		TerroristWin = 9,
+		/// <summary>
+		/// Round draw.
+		/// </summary>
+		Draw = 10,
+		/// <summary>
+		/// All hostages have been rescued.
+		/// </summary>
+		HostagesRescued = 11,
+		/// <summary>
+		/// Target has been saved.
+		/// </summary>
+		TargetSaved = 12,
+		/// <summary>
+		/// Hostages have not been rescued.
+		/// </summary>
+		HostagesNotRescued = 13,
+		/// <summary>
+		/// Terrorists have not escaped.
+		/// </summary>
+		TerroristsNotEscaped = 14,
+		/// <summary>
+		/// VIP has not escaped (not present in CS:GO).
+		/// </summary>
+		VIPNotEscaped = 15,
+		/// <summary>
+		/// Game commencing.
+		/// </summary>
+		GameStart = 16,
+		/// <summary>
+		/// Terrorists surrender.
+		/// </summary>
+		TerroristsSurrender = 17,
+		/// <summary>
+		/// CTs surrender.
+		/// </summary>
+		CTSurrender = 18,
+		/// <summary>
+		/// Terrorists planted the bomb.
+		/// </summary>
+		TerroristsPlanted = 19,
+		/// <summary>
+		/// CTs reached the hostage.
+		/// </summary>
+		CTsReachedHostage = 20,
+		/// <summary>
+		/// Survival mode win.
+		/// </summary>
+		SurvivalWin = 21,
+		/// <summary>
+		/// Survival mode draw.
+		/// </summary>
+		SurvivalDraw = 22,
+	}
+
 
 
 	/// <summary>
@@ -201,7 +575,7 @@ namespace s2sdk {
 	/// <summary>
 	/// Handles changes to a console variable's value. This function is called whenever the value of a specific console variable is modified.
 	/// </summary>
-	public delegate void ChangeCallback(nint pConVar, string newValue, string oldValue);
+	public delegate void ChangeCallback(ulong conVarHandle, string newValue, string oldValue);
 	/// <summary>
 	/// Defines a QueueTask Callback.
 	/// </summary>
@@ -217,7 +591,7 @@ namespace s2sdk {
 	/// <summary>
 	/// This function is invoked when a timer event occurs. It handles the timer-related logic and performs necessary actions based on the event.
 	/// </summary>
-	public delegate void TimerCallback(nint timer, object?[] userData);
+	public delegate void TimerCallback(ulong timer, object?[] userData);
 	/// <summary>
 	/// Called on client connection. If you return true, the client will be allowed in the server. If you return false (or return nothing), the client will be rejected. If the client is rejected by this forward or any other, OnClientDisconnect will not be called.<br>Note: Do not write to rejectmsg if you plan on returning true. If multiple plugins write to the string buffer, it is not defined which plugin's string will be shown to the client, but it is guaranteed one of them will.
 	/// </summary>
@@ -250,6 +624,14 @@ namespace s2sdk {
 	/// Called when a client is fully connected to the game.
 	/// </summary>
 	public delegate void OnClientFullyConnectCallback(int clientIndex);
+	/// <summary>
+	/// Called whenever the client's settings are changed.
+	/// </summary>
+	public delegate void OnClientSettingsChangedCallback(int clientIndex);
+	/// <summary>
+	/// Called when a client is fully connected to the game.
+	/// </summary>
+	public delegate void OnClientAuthenticatedCallback(int clientIndex, ulong steam);
 	/// <summary>
 	/// Called when the map starts loading.
 	/// </summary>
@@ -712,9 +1094,9 @@ namespace s2sdk {
 		/// <param name="clientIndex">Index of the client.</param>
 		/// <param name="team">The team index to assign the client to.</param>
 
-		internal static delegate*<int, int, void> ChangeClientTeam = &___ChangeClientTeam;
-		internal static delegate* unmanaged[Cdecl]<int, int, void> __ChangeClientTeam;
-		private static void ___ChangeClientTeam(int clientIndex, int team)
+		internal static delegate*<int, CSTeam, void> ChangeClientTeam = &___ChangeClientTeam;
+		internal static delegate* unmanaged[Cdecl]<int, CSTeam, void> __ChangeClientTeam;
+		private static void ___ChangeClientTeam(int clientIndex, CSTeam team)
 		{
 			__ChangeClientTeam(clientIndex, team);
 		}
@@ -725,9 +1107,9 @@ namespace s2sdk {
 		/// <param name="clientIndex">Index of the client.</param>
 		/// <param name="team">The team index to switch the client to.</param>
 
-		internal static delegate*<int, int, void> SwitchClientTeam = &___SwitchClientTeam;
-		internal static delegate* unmanaged[Cdecl]<int, int, void> __SwitchClientTeam;
-		private static void ___SwitchClientTeam(int clientIndex, int team)
+		internal static delegate*<int, CSTeam, void> SwitchClientTeam = &___SwitchClientTeam;
+		internal static delegate* unmanaged[Cdecl]<int, CSTeam, void> __SwitchClientTeam;
+		private static void ___SwitchClientTeam(int clientIndex, CSTeam team)
 		{
 			__SwitchClientTeam(clientIndex, team);
 		}
@@ -843,7 +1225,7 @@ namespace s2sdk {
 		/// Forces a player to drop their weapon.
 		/// </summary>
 		/// <param name="clientIndex">Index of the client.</param>
-		/// <param name="weaponHandle">Handle of weapon to drop.</param>
+		/// <param name="weaponHandle">The handle of weapon to drop.</param>
 		/// <param name="target">Target direction.</param>
 		/// <param name="velocity">Velocity to toss weapon or zero to just drop weapon.</param>
 
@@ -871,7 +1253,7 @@ namespace s2sdk {
 		/// Bumps a player's weapon.
 		/// </summary>
 		/// <param name="clientIndex">The index of the client.</param>
-		/// <param name="weaponHandle">Handle of weapon to bump.</param>
+		/// <param name="weaponHandle">The handle of weapon to bump.</param>
 
 		internal static delegate*<int, int, void> BumpWeapon = &___BumpWeapon;
 		internal static delegate* unmanaged[Cdecl]<int, int, void> __BumpWeapon;
@@ -884,7 +1266,7 @@ namespace s2sdk {
 		/// Switches a player's weapon.
 		/// </summary>
 		/// <param name="clientIndex">The index of the client.</param>
-		/// <param name="weaponHandle">Handle of weapon to switch.</param>
+		/// <param name="weaponHandle">The handle of weapon to switch.</param>
 
 		internal static delegate*<int, int, void> SwitchWeapon = &___SwitchWeapon;
 		internal static delegate* unmanaged[Cdecl]<int, int, void> __SwitchWeapon;
@@ -897,7 +1279,7 @@ namespace s2sdk {
 		/// Removes a player's weapon.
 		/// </summary>
 		/// <param name="clientIndex">The index of the client.</param>
-		/// <param name="weaponHandle">Handle of weapon to remove.</param>
+		/// <param name="weaponHandle">The handle of weapon to remove.</param>
 
 		internal static delegate*<int, int, void> RemoveWeapon = &___RemoveWeapon;
 		internal static delegate* unmanaged[Cdecl]<int, int, void> __RemoveWeapon;
@@ -1096,9 +1478,9 @@ namespace s2sdk {
 		/// - Returns: Indicates the result of the action execution. (int32)
 		/// </remarks>
 
-		internal static delegate*<string, long, string, long, CommandCallback, void> AddAdminCommand = &___AddAdminCommand;
-		internal static delegate* unmanaged[Cdecl]<String192*, long, String192*, long, nint, void> __AddAdminCommand;
-		private static void ___AddAdminCommand(string name, long adminFlags, string description, long flags, CommandCallback callback)
+		internal static delegate*<string, long, string, ConVarFlag, CommandCallback, void> AddAdminCommand = &___AddAdminCommand;
+		internal static delegate* unmanaged[Cdecl]<String192*, long, String192*, ConVarFlag, nint, void> __AddAdminCommand;
+		private static void ___AddAdminCommand(string name, long adminFlags, string description, ConVarFlag flags, CommandCallback callback)
 		{
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
@@ -1129,9 +1511,9 @@ namespace s2sdk {
 		/// - Returns: Indicates the result of the action execution. (int32)
 		/// </remarks>
 
-		internal static delegate*<string, string, long, CommandCallback, void> AddConsoleCommand = &___AddConsoleCommand;
-		internal static delegate* unmanaged[Cdecl]<String192*, String192*, long, nint, void> __AddConsoleCommand;
-		private static void ___AddConsoleCommand(string name, string description, long flags, CommandCallback callback)
+		internal static delegate*<string, string, ConVarFlag, CommandCallback, void> AddConsoleCommand = &___AddConsoleCommand;
+		internal static delegate* unmanaged[Cdecl]<String192*, String192*, ConVarFlag, nint, void> __AddConsoleCommand;
+		private static void ___AddConsoleCommand(string name, string description, ConVarFlag flags, CommandCallback callback)
 		{
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
@@ -1599,13 +1981,13 @@ namespace s2sdk {
 		/// <param name="defaultValue">The default value of the console variable.</param>
 		/// <param name="description">A description of the console variable's purpose.</param>
 		/// <param name="flags">Additional flags for the console variable.</param>
-		/// <returns>A pointer to the created console variable.</returns>
+		/// <returns>A handle to the created console variable.</returns>
 
-		internal static delegate*<string, string, string, int, nint> CreateConVar = &___CreateConVar;
-		internal static delegate* unmanaged[Cdecl]<String192*, String192*, String192*, int, nint> __CreateConVar;
-		private static nint ___CreateConVar(string name, string defaultValue, string description, int flags)
+		internal static delegate*<string, string, string, ConVarFlag, ulong> CreateConVar = &___CreateConVar;
+		internal static delegate* unmanaged[Cdecl]<String192*, String192*, String192*, ConVarFlag, ulong> __CreateConVar;
+		private static ulong ___CreateConVar(string name, string defaultValue, string description, ConVarFlag flags)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __defaultValue = NativeMethods.ConstructString(defaultValue);
 			var __description = NativeMethods.ConstructString(description);
@@ -1633,13 +2015,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, Bool8, string, int, Bool8, Bool8, Bool8, Bool8, nint> CreateConVarBool = &___CreateConVarBool;
-		internal static delegate* unmanaged[Cdecl]<String192*, Bool8, String192*, int, Bool8, Bool8, Bool8, Bool8, nint> __CreateConVarBool;
-		private static nint ___CreateConVarBool(string name, Bool8 defaultValue, string description, int flags, Bool8 hasMin, Bool8 min, Bool8 hasMax, Bool8 max)
+		internal static delegate*<string, Bool8, string, ConVarFlag, Bool8, Bool8, Bool8, Bool8, ulong> CreateConVarBool = &___CreateConVarBool;
+		internal static delegate* unmanaged[Cdecl]<String192*, Bool8, String192*, ConVarFlag, Bool8, Bool8, Bool8, Bool8, ulong> __CreateConVarBool;
+		private static ulong ___CreateConVarBool(string name, Bool8 defaultValue, string description, ConVarFlag flags, Bool8 hasMin, Bool8 min, Bool8 hasMax, Bool8 max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1665,13 +2047,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, short, string, int, Bool8, short, Bool8, short, nint> CreateConVarInt16 = &___CreateConVarInt16;
-		internal static delegate* unmanaged[Cdecl]<String192*, short, String192*, int, Bool8, short, Bool8, short, nint> __CreateConVarInt16;
-		private static nint ___CreateConVarInt16(string name, short defaultValue, string description, int flags, Bool8 hasMin, short min, Bool8 hasMax, short max)
+		internal static delegate*<string, short, string, ConVarFlag, Bool8, short, Bool8, short, ulong> CreateConVarInt16 = &___CreateConVarInt16;
+		internal static delegate* unmanaged[Cdecl]<String192*, short, String192*, ConVarFlag, Bool8, short, Bool8, short, ulong> __CreateConVarInt16;
+		private static ulong ___CreateConVarInt16(string name, short defaultValue, string description, ConVarFlag flags, Bool8 hasMin, short min, Bool8 hasMax, short max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1697,13 +2079,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, ushort, string, int, Bool8, ushort, Bool8, ushort, nint> CreateConVarUInt16 = &___CreateConVarUInt16;
-		internal static delegate* unmanaged[Cdecl]<String192*, ushort, String192*, int, Bool8, ushort, Bool8, ushort, nint> __CreateConVarUInt16;
-		private static nint ___CreateConVarUInt16(string name, ushort defaultValue, string description, int flags, Bool8 hasMin, ushort min, Bool8 hasMax, ushort max)
+		internal static delegate*<string, ushort, string, ConVarFlag, Bool8, ushort, Bool8, ushort, ulong> CreateConVarUInt16 = &___CreateConVarUInt16;
+		internal static delegate* unmanaged[Cdecl]<String192*, ushort, String192*, ConVarFlag, Bool8, ushort, Bool8, ushort, ulong> __CreateConVarUInt16;
+		private static ulong ___CreateConVarUInt16(string name, ushort defaultValue, string description, ConVarFlag flags, Bool8 hasMin, ushort min, Bool8 hasMax, ushort max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1729,13 +2111,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, int, string, int, Bool8, int, Bool8, int, nint> CreateConVarInt32 = &___CreateConVarInt32;
-		internal static delegate* unmanaged[Cdecl]<String192*, int, String192*, int, Bool8, int, Bool8, int, nint> __CreateConVarInt32;
-		private static nint ___CreateConVarInt32(string name, int defaultValue, string description, int flags, Bool8 hasMin, int min, Bool8 hasMax, int max)
+		internal static delegate*<string, int, string, ConVarFlag, Bool8, int, Bool8, int, ulong> CreateConVarInt32 = &___CreateConVarInt32;
+		internal static delegate* unmanaged[Cdecl]<String192*, int, String192*, ConVarFlag, Bool8, int, Bool8, int, ulong> __CreateConVarInt32;
+		private static ulong ___CreateConVarInt32(string name, int defaultValue, string description, ConVarFlag flags, Bool8 hasMin, int min, Bool8 hasMax, int max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1761,13 +2143,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, uint, string, int, Bool8, uint, Bool8, uint, nint> CreateConVarUInt32 = &___CreateConVarUInt32;
-		internal static delegate* unmanaged[Cdecl]<String192*, uint, String192*, int, Bool8, uint, Bool8, uint, nint> __CreateConVarUInt32;
-		private static nint ___CreateConVarUInt32(string name, uint defaultValue, string description, int flags, Bool8 hasMin, uint min, Bool8 hasMax, uint max)
+		internal static delegate*<string, uint, string, ConVarFlag, Bool8, uint, Bool8, uint, ulong> CreateConVarUInt32 = &___CreateConVarUInt32;
+		internal static delegate* unmanaged[Cdecl]<String192*, uint, String192*, ConVarFlag, Bool8, uint, Bool8, uint, ulong> __CreateConVarUInt32;
+		private static ulong ___CreateConVarUInt32(string name, uint defaultValue, string description, ConVarFlag flags, Bool8 hasMin, uint min, Bool8 hasMax, uint max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1793,13 +2175,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, long, string, int, Bool8, long, Bool8, long, nint> CreateConVarInt64 = &___CreateConVarInt64;
-		internal static delegate* unmanaged[Cdecl]<String192*, long, String192*, int, Bool8, long, Bool8, long, nint> __CreateConVarInt64;
-		private static nint ___CreateConVarInt64(string name, long defaultValue, string description, int flags, Bool8 hasMin, long min, Bool8 hasMax, long max)
+		internal static delegate*<string, long, string, ConVarFlag, Bool8, long, Bool8, long, ulong> CreateConVarInt64 = &___CreateConVarInt64;
+		internal static delegate* unmanaged[Cdecl]<String192*, long, String192*, ConVarFlag, Bool8, long, Bool8, long, ulong> __CreateConVarInt64;
+		private static ulong ___CreateConVarInt64(string name, long defaultValue, string description, ConVarFlag flags, Bool8 hasMin, long min, Bool8 hasMax, long max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1825,13 +2207,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, ulong, string, int, Bool8, ulong, Bool8, ulong, nint> CreateConVarUInt64 = &___CreateConVarUInt64;
-		internal static delegate* unmanaged[Cdecl]<String192*, ulong, String192*, int, Bool8, ulong, Bool8, ulong, nint> __CreateConVarUInt64;
-		private static nint ___CreateConVarUInt64(string name, ulong defaultValue, string description, int flags, Bool8 hasMin, ulong min, Bool8 hasMax, ulong max)
+		internal static delegate*<string, ulong, string, ConVarFlag, Bool8, ulong, Bool8, ulong, ulong> CreateConVarUInt64 = &___CreateConVarUInt64;
+		internal static delegate* unmanaged[Cdecl]<String192*, ulong, String192*, ConVarFlag, Bool8, ulong, Bool8, ulong, ulong> __CreateConVarUInt64;
+		private static ulong ___CreateConVarUInt64(string name, ulong defaultValue, string description, ConVarFlag flags, Bool8 hasMin, ulong min, Bool8 hasMax, ulong max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1857,13 +2239,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, float, string, int, Bool8, float, Bool8, float, nint> CreateConVarFloat = &___CreateConVarFloat;
-		internal static delegate* unmanaged[Cdecl]<String192*, float, String192*, int, Bool8, float, Bool8, float, nint> __CreateConVarFloat;
-		private static nint ___CreateConVarFloat(string name, float defaultValue, string description, int flags, Bool8 hasMin, float min, Bool8 hasMax, float max)
+		internal static delegate*<string, float, string, ConVarFlag, Bool8, float, Bool8, float, ulong> CreateConVarFloat = &___CreateConVarFloat;
+		internal static delegate* unmanaged[Cdecl]<String192*, float, String192*, ConVarFlag, Bool8, float, Bool8, float, ulong> __CreateConVarFloat;
+		private static ulong ___CreateConVarFloat(string name, float defaultValue, string description, ConVarFlag flags, Bool8 hasMin, float min, Bool8 hasMax, float max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1889,13 +2271,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, double, string, int, Bool8, double, Bool8, double, nint> CreateConVarDouble = &___CreateConVarDouble;
-		internal static delegate* unmanaged[Cdecl]<String192*, double, String192*, int, Bool8, double, Bool8, double, nint> __CreateConVarDouble;
-		private static nint ___CreateConVarDouble(string name, double defaultValue, string description, int flags, Bool8 hasMin, double min, Bool8 hasMax, double max)
+		internal static delegate*<string, double, string, ConVarFlag, Bool8, double, Bool8, double, ulong> CreateConVarDouble = &___CreateConVarDouble;
+		internal static delegate* unmanaged[Cdecl]<String192*, double, String192*, ConVarFlag, Bool8, double, Bool8, double, ulong> __CreateConVarDouble;
+		private static ulong ___CreateConVarDouble(string name, double defaultValue, string description, ConVarFlag flags, Bool8 hasMin, double min, Bool8 hasMax, double max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1921,13 +2303,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum color value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum color value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, int, string, int, Bool8, int, Bool8, int, nint> CreateConVarColor = &___CreateConVarColor;
-		internal static delegate* unmanaged[Cdecl]<String192*, int, String192*, int, Bool8, int, Bool8, int, nint> __CreateConVarColor;
-		private static nint ___CreateConVarColor(string name, int defaultValue, string description, int flags, Bool8 hasMin, int min, Bool8 hasMax, int max)
+		internal static delegate*<string, int, string, ConVarFlag, Bool8, int, Bool8, int, ulong> CreateConVarColor = &___CreateConVarColor;
+		internal static delegate* unmanaged[Cdecl]<String192*, int, String192*, ConVarFlag, Bool8, int, Bool8, int, ulong> __CreateConVarColor;
+		private static ulong ___CreateConVarColor(string name, int defaultValue, string description, ConVarFlag flags, Bool8 hasMin, int min, Bool8 hasMax, int max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1953,13 +2335,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, Vector2, string, int, Bool8, Vector2, Bool8, Vector2, nint> CreateConVarVector2 = &___CreateConVarVector2;
-		internal static delegate* unmanaged[Cdecl]<String192*, Vector2*, String192*, int, Bool8, Vector2*, Bool8, Vector2*, nint> __CreateConVarVector2;
-		private static nint ___CreateConVarVector2(string name, Vector2 defaultValue, string description, int flags, Bool8 hasMin, Vector2 min, Bool8 hasMax, Vector2 max)
+		internal static delegate*<string, Vector2, string, ConVarFlag, Bool8, Vector2, Bool8, Vector2, ulong> CreateConVarVector2 = &___CreateConVarVector2;
+		internal static delegate* unmanaged[Cdecl]<String192*, Vector2*, String192*, ConVarFlag, Bool8, Vector2*, Bool8, Vector2*, ulong> __CreateConVarVector2;
+		private static ulong ___CreateConVarVector2(string name, Vector2 defaultValue, string description, ConVarFlag flags, Bool8 hasMin, Vector2 min, Bool8 hasMax, Vector2 max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -1985,13 +2367,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, Vector3, string, int, Bool8, Vector3, Bool8, Vector3, nint> CreateConVarVector3 = &___CreateConVarVector3;
-		internal static delegate* unmanaged[Cdecl]<String192*, Vector3*, String192*, int, Bool8, Vector3*, Bool8, Vector3*, nint> __CreateConVarVector3;
-		private static nint ___CreateConVarVector3(string name, Vector3 defaultValue, string description, int flags, Bool8 hasMin, Vector3 min, Bool8 hasMax, Vector3 max)
+		internal static delegate*<string, Vector3, string, ConVarFlag, Bool8, Vector3, Bool8, Vector3, ulong> CreateConVarVector3 = &___CreateConVarVector3;
+		internal static delegate* unmanaged[Cdecl]<String192*, Vector3*, String192*, ConVarFlag, Bool8, Vector3*, Bool8, Vector3*, ulong> __CreateConVarVector3;
+		private static ulong ___CreateConVarVector3(string name, Vector3 defaultValue, string description, ConVarFlag flags, Bool8 hasMin, Vector3 min, Bool8 hasMax, Vector3 max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -2017,13 +2399,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, Vector4, string, int, Bool8, Vector4, Bool8, Vector4, nint> CreateConVarVector4 = &___CreateConVarVector4;
-		internal static delegate* unmanaged[Cdecl]<String192*, Vector4*, String192*, int, Bool8, Vector4*, Bool8, Vector4*, nint> __CreateConVarVector4;
-		private static nint ___CreateConVarVector4(string name, Vector4 defaultValue, string description, int flags, Bool8 hasMin, Vector4 min, Bool8 hasMax, Vector4 max)
+		internal static delegate*<string, Vector4, string, ConVarFlag, Bool8, Vector4, Bool8, Vector4, ulong> CreateConVarVector4 = &___CreateConVarVector4;
+		internal static delegate* unmanaged[Cdecl]<String192*, Vector4*, String192*, ConVarFlag, Bool8, Vector4*, Bool8, Vector4*, ulong> __CreateConVarVector4;
+		private static ulong ___CreateConVarVector4(string name, Vector4 defaultValue, string description, ConVarFlag flags, Bool8 hasMin, Vector4 min, Bool8 hasMax, Vector4 max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -2049,13 +2431,13 @@ namespace s2sdk {
 		/// <param name="min">The minimum value if hasMin is true.</param>
 		/// <param name="hasMax">Indicates if a maximum value is provided.</param>
 		/// <param name="max">The maximum value if hasMax is true.</param>
-		/// <returns>A pointer to the created console variable data.</returns>
+		/// <returns>A handle to the created console variable data.</returns>
 
-		internal static delegate*<string, Vector3, string, int, Bool8, Vector3, Bool8, Vector3, nint> CreateConVarQAngle = &___CreateConVarQAngle;
-		internal static delegate* unmanaged[Cdecl]<String192*, Vector3*, String192*, int, Bool8, Vector3*, Bool8, Vector3*, nint> __CreateConVarQAngle;
-		private static nint ___CreateConVarQAngle(string name, Vector3 defaultValue, string description, int flags, Bool8 hasMin, Vector3 min, Bool8 hasMax, Vector3 max)
+		internal static delegate*<string, Vector3, string, ConVarFlag, Bool8, Vector3, Bool8, Vector3, ulong> CreateConVarQAngle = &___CreateConVarQAngle;
+		internal static delegate* unmanaged[Cdecl]<String192*, Vector3*, String192*, ConVarFlag, Bool8, Vector3*, Bool8, Vector3*, ulong> __CreateConVarQAngle;
+		private static ulong ___CreateConVarQAngle(string name, Vector3 defaultValue, string description, ConVarFlag flags, Bool8 hasMin, Vector3 min, Bool8 hasMax, Vector3 max)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 			var __description = NativeMethods.ConstructString(description);
 
@@ -2074,13 +2456,13 @@ namespace s2sdk {
 		/// Searches for a console variable.
 		/// </summary>
 		/// <param name="name">The name of the console variable to search for.</param>
-		/// <returns>Pointer to the console variable data if found; otherwise, nullptr.</returns>
+		/// <returns>A handle to the console variable data if found; otherwise, nullptr.</returns>
 
-		internal static delegate*<string, nint> FindConVar = &___FindConVar;
-		internal static delegate* unmanaged[Cdecl]<String192*, nint> __FindConVar;
-		private static nint ___FindConVar(string name)
+		internal static delegate*<string, ulong> FindConVar = &___FindConVar;
+		internal static delegate* unmanaged[Cdecl]<String192*, ulong> __FindConVar;
+		private static ulong ___FindConVar(string name)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __name = NativeMethods.ConstructString(name);
 
 			try {
@@ -2100,7 +2482,7 @@ namespace s2sdk {
 		/// <param name="callback">The callback function to be executed when the variable's value changes.</param>
 		/// <remarks>
 		/// Callback ChangeCallback: Handles changes to a console variable's value. This function is called whenever the value of a specific console variable is modified.
-		/// - Parameter pConVar: A 64-bit pointer to the console variable that is being changed. This provides access to the variable's metadata and current state.
+		/// - Parameter conVarHandle: A handle to the console variable that is being changed. This provides access to the variable's metadata and current state.
 		/// - Parameter newValue: The new value being assigned to the console variable. This string contains the updated value after the change.
 		/// - Parameter oldValue: The previous value of the console variable before the change. This string contains the value that was overridden.
 		/// - Returns: This function does not return a value. It performs any necessary processing related to the value change directly. (void)
@@ -2129,7 +2511,7 @@ namespace s2sdk {
 		/// <param name="callback">The callback function to be removed.</param>
 		/// <remarks>
 		/// Callback ChangeCallback: Handles changes to a console variable's value. This function is called whenever the value of a specific console variable is modified.
-		/// - Parameter pConVar: A 64-bit pointer to the console variable that is being changed. This provides access to the variable's metadata and current state.
+		/// - Parameter conVarHandle: A handle to the console variable that is being changed. This provides access to the variable's metadata and current state.
 		/// - Parameter newValue: The new value being assigned to the console variable. This string contains the updated value after the change.
 		/// - Parameter oldValue: The previous value of the console variable before the change. This string contains the value that was overridden.
 		/// - Returns: This function does not return a value. It performs any necessary processing related to the value change directly. (void)
@@ -2154,74 +2536,74 @@ namespace s2sdk {
 		/// <summary>
 		/// Checks if a specific flag is set for a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="flag">The flag to check against the console variable.</param>
 		/// <returns>True if the flag is set; otherwise, false.</returns>
 
-		internal static delegate*<nint, long, Bool8> IsConVarFlagSet = &___IsConVarFlagSet;
-		internal static delegate* unmanaged[Cdecl]<nint, long, Bool8> __IsConVarFlagSet;
-		private static Bool8 ___IsConVarFlagSet(nint conVar, long flag)
+		internal static delegate*<ulong, long, Bool8> IsConVarFlagSet = &___IsConVarFlagSet;
+		internal static delegate* unmanaged[Cdecl]<ulong, long, Bool8> __IsConVarFlagSet;
+		private static Bool8 ___IsConVarFlagSet(ulong conVarHandle, long flag)
 		{
-			Bool8 __retVal = __IsConVarFlagSet(conVar, flag);
+			Bool8 __retVal = __IsConVarFlagSet(conVarHandle, flag);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Adds flags to a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="flags">The flags to be added.</param>
 
-		internal static delegate*<nint, long, void> AddConVarFlags = &___AddConVarFlags;
-		internal static delegate* unmanaged[Cdecl]<nint, long, void> __AddConVarFlags;
-		private static void ___AddConVarFlags(nint conVar, long flags)
+		internal static delegate*<ulong, ConVarFlag, void> AddConVarFlags = &___AddConVarFlags;
+		internal static delegate* unmanaged[Cdecl]<ulong, ConVarFlag, void> __AddConVarFlags;
+		private static void ___AddConVarFlags(ulong conVarHandle, ConVarFlag flags)
 		{
-			__AddConVarFlags(conVar, flags);
+			__AddConVarFlags(conVarHandle, flags);
 		}
 
 		/// <summary>
 		/// Removes flags from a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="flags">The flags to be removed.</param>
 
-		internal static delegate*<nint, long, void> RemoveConVarFlags = &___RemoveConVarFlags;
-		internal static delegate* unmanaged[Cdecl]<nint, long, void> __RemoveConVarFlags;
-		private static void ___RemoveConVarFlags(nint conVar, long flags)
+		internal static delegate*<ulong, ConVarFlag, void> RemoveConVarFlags = &___RemoveConVarFlags;
+		internal static delegate* unmanaged[Cdecl]<ulong, ConVarFlag, void> __RemoveConVarFlags;
+		private static void ___RemoveConVarFlags(ulong conVarHandle, ConVarFlag flags)
 		{
-			__RemoveConVarFlags(conVar, flags);
+			__RemoveConVarFlags(conVarHandle, flags);
 		}
 
 		/// <summary>
 		/// Retrieves the current flags of a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current flags set on the console variable.</returns>
 
-		internal static delegate*<nint, long> GetConVarFlags = &___GetConVarFlags;
-		internal static delegate* unmanaged[Cdecl]<nint, long> __GetConVarFlags;
-		private static long ___GetConVarFlags(nint conVar)
+		internal static delegate*<ulong, ConVarFlag> GetConVarFlags = &___GetConVarFlags;
+		internal static delegate* unmanaged[Cdecl]<ulong, ConVarFlag> __GetConVarFlags;
+		private static ConVarFlag ___GetConVarFlags(ulong conVarHandle)
 		{
-			long __retVal = __GetConVarFlags(conVar);
+			ConVarFlag __retVal = __GetConVarFlags(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Gets the specified bound (max or min) of a console variable and stores it in the output string.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="max">Indicates whether to get the maximum (true) or minimum (false) bound.</param>
 		/// <returns>The bound value.</returns>
 
-		internal static delegate*<nint, Bool8, string> GetConVarBounds = &___GetConVarBounds;
-		internal static delegate* unmanaged[Cdecl]<nint, Bool8, String192> __GetConVarBounds;
-		private static string ___GetConVarBounds(nint conVar, Bool8 max)
+		internal static delegate*<ulong, Bool8, string> GetConVarBounds = &___GetConVarBounds;
+		internal static delegate* unmanaged[Cdecl]<ulong, Bool8, String192> __GetConVarBounds;
+		private static string ___GetConVarBounds(ulong conVarHandle, Bool8 max)
 		{
 			string __retVal;
 			String192 __retVal_native;
 
 			try {
-				__retVal_native = __GetConVarBounds(conVar, max);
+				__retVal_native = __GetConVarBounds(conVarHandle, max);
 				// Unmarshal - Convert native data to managed data.
 				__retVal = NativeMethods.GetStringData(&__retVal_native);
 
@@ -2236,18 +2618,18 @@ namespace s2sdk {
 		/// <summary>
 		/// Sets the specified bound (max or min) for a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="max">Indicates whether to set the maximum (true) or minimum (false) bound.</param>
 		/// <param name="value">The value to set as the bound.</param>
 
-		internal static delegate*<nint, Bool8, string, void> SetConVarBounds = &___SetConVarBounds;
-		internal static delegate* unmanaged[Cdecl]<nint, Bool8, String192*, void> __SetConVarBounds;
-		private static void ___SetConVarBounds(nint conVar, Bool8 max, string value)
+		internal static delegate*<ulong, Bool8, string, void> SetConVarBounds = &___SetConVarBounds;
+		internal static delegate* unmanaged[Cdecl]<ulong, Bool8, String192*, void> __SetConVarBounds;
+		private static void ___SetConVarBounds(ulong conVarHandle, Bool8 max, string value)
 		{
 			var __value = NativeMethods.ConstructString(value);
 
 			try {
-				__SetConVarBounds(conVar, max, &__value);
+				__SetConVarBounds(conVarHandle, max, &__value);
 			}
 			finally {
 				// Perform cleanup.
@@ -2258,18 +2640,18 @@ namespace s2sdk {
 		/// <summary>
 		/// Retrieves the default value of a console variable and stores it in the output string.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The output value in string format.</returns>
 
-		internal static delegate*<nint, string> GetConVarDefault = &___GetConVarDefault;
-		internal static delegate* unmanaged[Cdecl]<nint, String192> __GetConVarDefault;
-		private static string ___GetConVarDefault(nint conVar)
+		internal static delegate*<ulong, string> GetConVarDefault = &___GetConVarDefault;
+		internal static delegate* unmanaged[Cdecl]<ulong, String192> __GetConVarDefault;
+		private static string ___GetConVarDefault(ulong conVarHandle)
 		{
 			string __retVal;
 			String192 __retVal_native;
 
 			try {
-				__retVal_native = __GetConVarDefault(conVar);
+				__retVal_native = __GetConVarDefault(conVarHandle);
 				// Unmarshal - Convert native data to managed data.
 				__retVal = NativeMethods.GetStringData(&__retVal_native);
 
@@ -2284,18 +2666,18 @@ namespace s2sdk {
 		/// <summary>
 		/// Retrieves the current value of a console variable and stores it in the output string.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The output value in string format.</returns>
 
-		internal static delegate*<nint, string> GetConVarValue = &___GetConVarValue;
-		internal static delegate* unmanaged[Cdecl]<nint, String192> __GetConVarValue;
-		private static string ___GetConVarValue(nint conVar)
+		internal static delegate*<ulong, string> GetConVarValue = &___GetConVarValue;
+		internal static delegate* unmanaged[Cdecl]<ulong, String192> __GetConVarValue;
+		private static string ___GetConVarValue(ulong conVarHandle)
 		{
 			string __retVal;
 			String192 __retVal_native;
 
 			try {
-				__retVal_native = __GetConVarValue(conVar);
+				__retVal_native = __GetConVarValue(conVarHandle);
 				// Unmarshal - Convert native data to managed data.
 				__retVal = NativeMethods.GetStringData(&__retVal_native);
 
@@ -2310,18 +2692,18 @@ namespace s2sdk {
 		/// <summary>
 		/// Retrieves the current value of a console variable and stores it in the output.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The output value.</returns>
 
-		internal static delegate*<nint, object?> GetConVar = &___GetConVar;
-		internal static delegate* unmanaged[Cdecl]<nint, Variant256> __GetConVar;
-		private static object? ___GetConVar(nint conVar)
+		internal static delegate*<ulong, object?> GetConVar = &___GetConVar;
+		internal static delegate* unmanaged[Cdecl]<ulong, Variant256> __GetConVar;
+		private static object? ___GetConVar(ulong conVarHandle)
 		{
 			object? __retVal;
 			Variant256 __retVal_native;
 
 			try {
-				__retVal_native = __GetConVar(conVar);
+				__retVal_native = __GetConVar(conVarHandle);
 				// Unmarshal - Convert native data to managed data.
 				__retVal = NativeMethods.GetVariantData(&__retVal_native);
 
@@ -2336,144 +2718,144 @@ namespace s2sdk {
 		/// <summary>
 		/// Retrieves the current value of a boolean console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current boolean value of the console variable.</returns>
 
-		internal static delegate*<nint, Bool8> GetConVarBool = &___GetConVarBool;
-		internal static delegate* unmanaged[Cdecl]<nint, Bool8> __GetConVarBool;
-		private static Bool8 ___GetConVarBool(nint conVar)
+		internal static delegate*<ulong, Bool8> GetConVarBool = &___GetConVarBool;
+		internal static delegate* unmanaged[Cdecl]<ulong, Bool8> __GetConVarBool;
+		private static Bool8 ___GetConVarBool(ulong conVarHandle)
 		{
-			Bool8 __retVal = __GetConVarBool(conVar);
+			Bool8 __retVal = __GetConVarBool(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a signed 16-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current int16_t value of the console variable.</returns>
 
-		internal static delegate*<nint, short> GetConVarInt16 = &___GetConVarInt16;
-		internal static delegate* unmanaged[Cdecl]<nint, short> __GetConVarInt16;
-		private static short ___GetConVarInt16(nint conVar)
+		internal static delegate*<ulong, short> GetConVarInt16 = &___GetConVarInt16;
+		internal static delegate* unmanaged[Cdecl]<ulong, short> __GetConVarInt16;
+		private static short ___GetConVarInt16(ulong conVarHandle)
 		{
-			short __retVal = __GetConVarInt16(conVar);
+			short __retVal = __GetConVarInt16(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of an unsigned 16-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current uint16_t value of the console variable.</returns>
 
-		internal static delegate*<nint, ushort> GetConVarUInt16 = &___GetConVarUInt16;
-		internal static delegate* unmanaged[Cdecl]<nint, ushort> __GetConVarUInt16;
-		private static ushort ___GetConVarUInt16(nint conVar)
+		internal static delegate*<ulong, ushort> GetConVarUInt16 = &___GetConVarUInt16;
+		internal static delegate* unmanaged[Cdecl]<ulong, ushort> __GetConVarUInt16;
+		private static ushort ___GetConVarUInt16(ulong conVarHandle)
 		{
-			ushort __retVal = __GetConVarUInt16(conVar);
+			ushort __retVal = __GetConVarUInt16(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a signed 32-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current int32_t value of the console variable.</returns>
 
-		internal static delegate*<nint, int> GetConVarInt32 = &___GetConVarInt32;
-		internal static delegate* unmanaged[Cdecl]<nint, int> __GetConVarInt32;
-		private static int ___GetConVarInt32(nint conVar)
+		internal static delegate*<ulong, int> GetConVarInt32 = &___GetConVarInt32;
+		internal static delegate* unmanaged[Cdecl]<ulong, int> __GetConVarInt32;
+		private static int ___GetConVarInt32(ulong conVarHandle)
 		{
-			int __retVal = __GetConVarInt32(conVar);
+			int __retVal = __GetConVarInt32(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of an unsigned 32-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current uint32_t value of the console variable.</returns>
 
-		internal static delegate*<nint, uint> GetConVarUInt32 = &___GetConVarUInt32;
-		internal static delegate* unmanaged[Cdecl]<nint, uint> __GetConVarUInt32;
-		private static uint ___GetConVarUInt32(nint conVar)
+		internal static delegate*<ulong, uint> GetConVarUInt32 = &___GetConVarUInt32;
+		internal static delegate* unmanaged[Cdecl]<ulong, uint> __GetConVarUInt32;
+		private static uint ___GetConVarUInt32(ulong conVarHandle)
 		{
-			uint __retVal = __GetConVarUInt32(conVar);
+			uint __retVal = __GetConVarUInt32(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a signed 64-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current int64_t value of the console variable.</returns>
 
-		internal static delegate*<nint, long> GetConVarInt64 = &___GetConVarInt64;
-		internal static delegate* unmanaged[Cdecl]<nint, long> __GetConVarInt64;
-		private static long ___GetConVarInt64(nint conVar)
+		internal static delegate*<ulong, long> GetConVarInt64 = &___GetConVarInt64;
+		internal static delegate* unmanaged[Cdecl]<ulong, long> __GetConVarInt64;
+		private static long ___GetConVarInt64(ulong conVarHandle)
 		{
-			long __retVal = __GetConVarInt64(conVar);
+			long __retVal = __GetConVarInt64(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of an unsigned 64-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current uint64_t value of the console variable.</returns>
 
-		internal static delegate*<nint, ulong> GetConVarUInt64 = &___GetConVarUInt64;
-		internal static delegate* unmanaged[Cdecl]<nint, ulong> __GetConVarUInt64;
-		private static ulong ___GetConVarUInt64(nint conVar)
+		internal static delegate*<ulong, ulong> GetConVarUInt64 = &___GetConVarUInt64;
+		internal static delegate* unmanaged[Cdecl]<ulong, ulong> __GetConVarUInt64;
+		private static ulong ___GetConVarUInt64(ulong conVarHandle)
 		{
-			ulong __retVal = __GetConVarUInt64(conVar);
+			ulong __retVal = __GetConVarUInt64(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a float console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current float value of the console variable.</returns>
 
-		internal static delegate*<nint, float> GetConVarFloat = &___GetConVarFloat;
-		internal static delegate* unmanaged[Cdecl]<nint, float> __GetConVarFloat;
-		private static float ___GetConVarFloat(nint conVar)
+		internal static delegate*<ulong, float> GetConVarFloat = &___GetConVarFloat;
+		internal static delegate* unmanaged[Cdecl]<ulong, float> __GetConVarFloat;
+		private static float ___GetConVarFloat(ulong conVarHandle)
 		{
-			float __retVal = __GetConVarFloat(conVar);
+			float __retVal = __GetConVarFloat(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a double console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current double value of the console variable.</returns>
 
-		internal static delegate*<nint, double> GetConVarDouble = &___GetConVarDouble;
-		internal static delegate* unmanaged[Cdecl]<nint, double> __GetConVarDouble;
-		private static double ___GetConVarDouble(nint conVar)
+		internal static delegate*<ulong, double> GetConVarDouble = &___GetConVarDouble;
+		internal static delegate* unmanaged[Cdecl]<ulong, double> __GetConVarDouble;
+		private static double ___GetConVarDouble(ulong conVarHandle)
 		{
-			double __retVal = __GetConVarDouble(conVar);
+			double __retVal = __GetConVarDouble(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a string console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current string value of the console variable.</returns>
 
-		internal static delegate*<nint, string> GetConVarString = &___GetConVarString;
-		internal static delegate* unmanaged[Cdecl]<nint, String192> __GetConVarString;
-		private static string ___GetConVarString(nint conVar)
+		internal static delegate*<ulong, string> GetConVarString = &___GetConVarString;
+		internal static delegate* unmanaged[Cdecl]<ulong, String192> __GetConVarString;
+		private static string ___GetConVarString(ulong conVarHandle)
 		{
 			string __retVal;
 			String192 __retVal_native;
 
 			try {
-				__retVal_native = __GetConVarString(conVar);
+				__retVal_native = __GetConVarString(conVarHandle);
 				// Unmarshal - Convert native data to managed data.
 				__retVal = NativeMethods.GetStringData(&__retVal_native);
 
@@ -2488,89 +2870,89 @@ namespace s2sdk {
 		/// <summary>
 		/// Retrieves the current value of a Color console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current Color value of the console variable.</returns>
 
-		internal static delegate*<nint, int> GetConVarColor = &___GetConVarColor;
-		internal static delegate* unmanaged[Cdecl]<nint, int> __GetConVarColor;
-		private static int ___GetConVarColor(nint conVar)
+		internal static delegate*<ulong, int> GetConVarColor = &___GetConVarColor;
+		internal static delegate* unmanaged[Cdecl]<ulong, int> __GetConVarColor;
+		private static int ___GetConVarColor(ulong conVarHandle)
 		{
-			int __retVal = __GetConVarColor(conVar);
+			int __retVal = __GetConVarColor(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a Vector2D console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current Vector2D value of the console variable.</returns>
 
-		internal static delegate*<nint, Vector2> GetConVarVector2 = &___GetConVarVector2;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector2> __GetConVarVector2;
-		private static Vector2 ___GetConVarVector2(nint conVar)
+		internal static delegate*<ulong, Vector2> GetConVarVector2 = &___GetConVarVector2;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector2> __GetConVarVector2;
+		private static Vector2 ___GetConVarVector2(ulong conVarHandle)
 		{
-			Vector2 __retVal = __GetConVarVector2(conVar);
+			Vector2 __retVal = __GetConVarVector2(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a Vector console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current Vector value of the console variable.</returns>
 
-		internal static delegate*<nint, Vector3> GetConVarVector = &___GetConVarVector;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector3> __GetConVarVector;
-		private static Vector3 ___GetConVarVector(nint conVar)
+		internal static delegate*<ulong, Vector3> GetConVarVector = &___GetConVarVector;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector3> __GetConVarVector;
+		private static Vector3 ___GetConVarVector(ulong conVarHandle)
 		{
-			Vector3 __retVal = __GetConVarVector(conVar);
+			Vector3 __retVal = __GetConVarVector(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a Vector4D console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current Vector4D value of the console variable.</returns>
 
-		internal static delegate*<nint, Vector4> GetConVarVector4 = &___GetConVarVector4;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector4> __GetConVarVector4;
-		private static Vector4 ___GetConVarVector4(nint conVar)
+		internal static delegate*<ulong, Vector4> GetConVarVector4 = &___GetConVarVector4;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector4> __GetConVarVector4;
+		private static Vector4 ___GetConVarVector4(ulong conVarHandle)
 		{
-			Vector4 __retVal = __GetConVarVector4(conVar);
+			Vector4 __retVal = __GetConVarVector4(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Retrieves the current value of a QAngle console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <returns>The current QAngle value of the console variable.</returns>
 
-		internal static delegate*<nint, Vector3> GetConVarQAngle = &___GetConVarQAngle;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector3> __GetConVarQAngle;
-		private static Vector3 ___GetConVarQAngle(nint conVar)
+		internal static delegate*<ulong, Vector3> GetConVarQAngle = &___GetConVarQAngle;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector3> __GetConVarQAngle;
+		private static Vector3 ___GetConVarQAngle(ulong conVarHandle)
 		{
-			Vector3 __retVal = __GetConVarQAngle(conVar);
+			Vector3 __retVal = __GetConVarQAngle(conVarHandle);
 			return __retVal;
 		}
 
 		/// <summary>
 		/// Sets the value of a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The string value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, string, Bool8, Bool8, void> SetConVarValue = &___SetConVarValue;
-		internal static delegate* unmanaged[Cdecl]<nint, String192*, Bool8, Bool8, void> __SetConVarValue;
-		private static void ___SetConVarValue(nint conVar, string value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, string, Bool8, Bool8, void> SetConVarValue = &___SetConVarValue;
+		internal static delegate* unmanaged[Cdecl]<ulong, String192*, Bool8, Bool8, void> __SetConVarValue;
+		private static void ___SetConVarValue(ulong conVarHandle, string value, Bool8 replicate, Bool8 notify)
 		{
 			var __value = NativeMethods.ConstructString(value);
 
 			try {
-				__SetConVarValue(conVar, &__value, replicate, notify);
+				__SetConVarValue(conVarHandle, &__value, replicate, notify);
 			}
 			finally {
 				// Perform cleanup.
@@ -2581,19 +2963,19 @@ namespace s2sdk {
 		/// <summary>
 		/// Sets the value of a console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, object?, Bool8, Bool8, void> SetConVar = &___SetConVar;
-		internal static delegate* unmanaged[Cdecl]<nint, Variant256*, Bool8, Bool8, void> __SetConVar;
-		private static void ___SetConVar(nint conVar, object? value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, object?, Bool8, Bool8, void> SetConVar = &___SetConVar;
+		internal static delegate* unmanaged[Cdecl]<ulong, Variant256*, Bool8, Bool8, void> __SetConVar;
+		private static void ___SetConVar(ulong conVarHandle, object? value, Bool8 replicate, Bool8 notify)
 		{
 			var __value = NativeMethods.ConstructVariant(value);
 
 			try {
-				__SetConVar(conVar, &__value, replicate, notify);
+				__SetConVar(conVarHandle, &__value, replicate, notify);
 			}
 			finally {
 				// Perform cleanup.
@@ -2604,154 +2986,154 @@ namespace s2sdk {
 		/// <summary>
 		/// Sets the value of a boolean console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, Bool8, Bool8, Bool8, void> SetConVarBool = &___SetConVarBool;
-		internal static delegate* unmanaged[Cdecl]<nint, Bool8, Bool8, Bool8, void> __SetConVarBool;
-		private static void ___SetConVarBool(nint conVar, Bool8 value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, Bool8, Bool8, Bool8, void> SetConVarBool = &___SetConVarBool;
+		internal static delegate* unmanaged[Cdecl]<ulong, Bool8, Bool8, Bool8, void> __SetConVarBool;
+		private static void ___SetConVarBool(ulong conVarHandle, Bool8 value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarBool(conVar, value, replicate, notify);
+			__SetConVarBool(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a signed 16-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, short, Bool8, Bool8, void> SetConVarInt16 = &___SetConVarInt16;
-		internal static delegate* unmanaged[Cdecl]<nint, short, Bool8, Bool8, void> __SetConVarInt16;
-		private static void ___SetConVarInt16(nint conVar, short value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, short, Bool8, Bool8, void> SetConVarInt16 = &___SetConVarInt16;
+		internal static delegate* unmanaged[Cdecl]<ulong, short, Bool8, Bool8, void> __SetConVarInt16;
+		private static void ___SetConVarInt16(ulong conVarHandle, short value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarInt16(conVar, value, replicate, notify);
+			__SetConVarInt16(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of an unsigned 16-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, ushort, Bool8, Bool8, void> SetConVarUInt16 = &___SetConVarUInt16;
-		internal static delegate* unmanaged[Cdecl]<nint, ushort, Bool8, Bool8, void> __SetConVarUInt16;
-		private static void ___SetConVarUInt16(nint conVar, ushort value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, ushort, Bool8, Bool8, void> SetConVarUInt16 = &___SetConVarUInt16;
+		internal static delegate* unmanaged[Cdecl]<ulong, ushort, Bool8, Bool8, void> __SetConVarUInt16;
+		private static void ___SetConVarUInt16(ulong conVarHandle, ushort value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarUInt16(conVar, value, replicate, notify);
+			__SetConVarUInt16(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a signed 32-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, int, Bool8, Bool8, void> SetConVarInt32 = &___SetConVarInt32;
-		internal static delegate* unmanaged[Cdecl]<nint, int, Bool8, Bool8, void> __SetConVarInt32;
-		private static void ___SetConVarInt32(nint conVar, int value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, int, Bool8, Bool8, void> SetConVarInt32 = &___SetConVarInt32;
+		internal static delegate* unmanaged[Cdecl]<ulong, int, Bool8, Bool8, void> __SetConVarInt32;
+		private static void ___SetConVarInt32(ulong conVarHandle, int value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarInt32(conVar, value, replicate, notify);
+			__SetConVarInt32(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of an unsigned 32-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, uint, Bool8, Bool8, void> SetConVarUInt32 = &___SetConVarUInt32;
-		internal static delegate* unmanaged[Cdecl]<nint, uint, Bool8, Bool8, void> __SetConVarUInt32;
-		private static void ___SetConVarUInt32(nint conVar, uint value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, uint, Bool8, Bool8, void> SetConVarUInt32 = &___SetConVarUInt32;
+		internal static delegate* unmanaged[Cdecl]<ulong, uint, Bool8, Bool8, void> __SetConVarUInt32;
+		private static void ___SetConVarUInt32(ulong conVarHandle, uint value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarUInt32(conVar, value, replicate, notify);
+			__SetConVarUInt32(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a signed 64-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, long, Bool8, Bool8, void> SetConVarInt64 = &___SetConVarInt64;
-		internal static delegate* unmanaged[Cdecl]<nint, long, Bool8, Bool8, void> __SetConVarInt64;
-		private static void ___SetConVarInt64(nint conVar, long value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, long, Bool8, Bool8, void> SetConVarInt64 = &___SetConVarInt64;
+		internal static delegate* unmanaged[Cdecl]<ulong, long, Bool8, Bool8, void> __SetConVarInt64;
+		private static void ___SetConVarInt64(ulong conVarHandle, long value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarInt64(conVar, value, replicate, notify);
+			__SetConVarInt64(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of an unsigned 64-bit integer console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, ulong, Bool8, Bool8, void> SetConVarUInt64 = &___SetConVarUInt64;
-		internal static delegate* unmanaged[Cdecl]<nint, ulong, Bool8, Bool8, void> __SetConVarUInt64;
-		private static void ___SetConVarUInt64(nint conVar, ulong value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, ulong, Bool8, Bool8, void> SetConVarUInt64 = &___SetConVarUInt64;
+		internal static delegate* unmanaged[Cdecl]<ulong, ulong, Bool8, Bool8, void> __SetConVarUInt64;
+		private static void ___SetConVarUInt64(ulong conVarHandle, ulong value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarUInt64(conVar, value, replicate, notify);
+			__SetConVarUInt64(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a floating-point console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, float, Bool8, Bool8, void> SetConVarFloat = &___SetConVarFloat;
-		internal static delegate* unmanaged[Cdecl]<nint, float, Bool8, Bool8, void> __SetConVarFloat;
-		private static void ___SetConVarFloat(nint conVar, float value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, float, Bool8, Bool8, void> SetConVarFloat = &___SetConVarFloat;
+		internal static delegate* unmanaged[Cdecl]<ulong, float, Bool8, Bool8, void> __SetConVarFloat;
+		private static void ___SetConVarFloat(ulong conVarHandle, float value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarFloat(conVar, value, replicate, notify);
+			__SetConVarFloat(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a double-precision floating-point console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, double, Bool8, Bool8, void> SetConVarDouble = &___SetConVarDouble;
-		internal static delegate* unmanaged[Cdecl]<nint, double, Bool8, Bool8, void> __SetConVarDouble;
-		private static void ___SetConVarDouble(nint conVar, double value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, double, Bool8, Bool8, void> SetConVarDouble = &___SetConVarDouble;
+		internal static delegate* unmanaged[Cdecl]<ulong, double, Bool8, Bool8, void> __SetConVarDouble;
+		private static void ___SetConVarDouble(ulong conVarHandle, double value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarDouble(conVar, value, replicate, notify);
+			__SetConVarDouble(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a string console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, string, Bool8, Bool8, void> SetConVarString = &___SetConVarString;
-		internal static delegate* unmanaged[Cdecl]<nint, String192*, Bool8, Bool8, void> __SetConVarString;
-		private static void ___SetConVarString(nint conVar, string value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, string, Bool8, Bool8, void> SetConVarString = &___SetConVarString;
+		internal static delegate* unmanaged[Cdecl]<ulong, String192*, Bool8, Bool8, void> __SetConVarString;
+		private static void ___SetConVarString(ulong conVarHandle, string value, Bool8 replicate, Bool8 notify)
 		{
 			var __value = NativeMethods.ConstructString(value);
 
 			try {
-				__SetConVarString(conVar, &__value, replicate, notify);
+				__SetConVarString(conVarHandle, &__value, replicate, notify);
 			}
 			finally {
 				// Perform cleanup.
@@ -2762,93 +3144,93 @@ namespace s2sdk {
 		/// <summary>
 		/// Sets the value of a color console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, int, Bool8, Bool8, void> SetConVarColor = &___SetConVarColor;
-		internal static delegate* unmanaged[Cdecl]<nint, int, Bool8, Bool8, void> __SetConVarColor;
-		private static void ___SetConVarColor(nint conVar, int value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, int, Bool8, Bool8, void> SetConVarColor = &___SetConVarColor;
+		internal static delegate* unmanaged[Cdecl]<ulong, int, Bool8, Bool8, void> __SetConVarColor;
+		private static void ___SetConVarColor(ulong conVarHandle, int value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarColor(conVar, value, replicate, notify);
+			__SetConVarColor(conVarHandle, value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a 2D vector console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, Vector2, Bool8, Bool8, void> SetConVarVector2 = &___SetConVarVector2;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector2*, Bool8, Bool8, void> __SetConVarVector2;
-		private static void ___SetConVarVector2(nint conVar, Vector2 value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, Vector2, Bool8, Bool8, void> SetConVarVector2 = &___SetConVarVector2;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector2*, Bool8, Bool8, void> __SetConVarVector2;
+		private static void ___SetConVarVector2(ulong conVarHandle, Vector2 value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarVector2(conVar, &value, replicate, notify);
+			__SetConVarVector2(conVarHandle, &value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a 3D vector console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, Vector3, Bool8, Bool8, void> SetConVarVector3 = &___SetConVarVector3;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector3*, Bool8, Bool8, void> __SetConVarVector3;
-		private static void ___SetConVarVector3(nint conVar, Vector3 value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, Vector3, Bool8, Bool8, void> SetConVarVector3 = &___SetConVarVector3;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector3*, Bool8, Bool8, void> __SetConVarVector3;
+		private static void ___SetConVarVector3(ulong conVarHandle, Vector3 value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarVector3(conVar, &value, replicate, notify);
+			__SetConVarVector3(conVarHandle, &value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a 4D vector console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, Vector4, Bool8, Bool8, void> SetConVarVector4 = &___SetConVarVector4;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector4*, Bool8, Bool8, void> __SetConVarVector4;
-		private static void ___SetConVarVector4(nint conVar, Vector4 value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, Vector4, Bool8, Bool8, void> SetConVarVector4 = &___SetConVarVector4;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector4*, Bool8, Bool8, void> __SetConVarVector4;
+		private static void ___SetConVarVector4(ulong conVarHandle, Vector4 value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarVector4(conVar, &value, replicate, notify);
+			__SetConVarVector4(conVarHandle, &value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Sets the value of a quaternion angle console variable.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to set for the console variable.</param>
 		/// <param name="replicate">If set to true, the new convar value will be set on all clients. This will only work if the convar has the FCVAR_REPLICATED flag and actually exists on clients.</param>
 		/// <param name="notify">If set to true, clients will be notified that the convar has changed. This will only work if the convar has the FCVAR_NOTIFY flag.</param>
 
-		internal static delegate*<nint, Vector3, Bool8, Bool8, void> SetConVarQAngle = &___SetConVarQAngle;
-		internal static delegate* unmanaged[Cdecl]<nint, Vector3*, Bool8, Bool8, void> __SetConVarQAngle;
-		private static void ___SetConVarQAngle(nint conVar, Vector3 value, Bool8 replicate, Bool8 notify)
+		internal static delegate*<ulong, Vector3, Bool8, Bool8, void> SetConVarQAngle = &___SetConVarQAngle;
+		internal static delegate* unmanaged[Cdecl]<ulong, Vector3*, Bool8, Bool8, void> __SetConVarQAngle;
+		private static void ___SetConVarQAngle(ulong conVarHandle, Vector3 value, Bool8 replicate, Bool8 notify)
 		{
-			__SetConVarQAngle(conVar, &value, replicate, notify);
+			__SetConVarQAngle(conVarHandle, &value, replicate, notify);
 		}
 
 		/// <summary>
 		/// Replicates a console variable value to a specific client. This does not change the actual console variable value.
 		/// </summary>
-		/// <param name="conVar">Pointer to the console variable data.</param>
 		/// <param name="clientIndex">The index of the client to replicate the value to.</param>
+		/// <param name="conVarHandle">The handle to the console variable data.</param>
 		/// <param name="value">The value to send to the client.</param>
 
-		internal static delegate*<nint, int, string, void> SendConVarValue = &___SendConVarValue;
-		internal static delegate* unmanaged[Cdecl]<nint, int, String192*, void> __SendConVarValue;
-		private static void ___SendConVarValue(nint conVar, int clientIndex, string value)
+		internal static delegate*<int, ulong, string, void> SendConVarValue = &___SendConVarValue;
+		internal static delegate* unmanaged[Cdecl]<int, ulong, String192*, void> __SendConVarValue;
+		private static void ___SendConVarValue(int clientIndex, ulong conVarHandle, string value)
 		{
 			var __value = NativeMethods.ConstructString(value);
 
 			try {
-				__SendConVarValue(conVar, clientIndex, &__value);
+				__SendConVarValue(clientIndex, conVarHandle, &__value);
 			}
 			finally {
 				// Perform cleanup.
@@ -3784,11 +4166,11 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose movement type is to be retrieved.</param>
 		/// <returns>The movement type of the entity, or 0 if the entity is invalid.</returns>
 
-		internal static delegate*<int, int> GetEntityMoveType = &___GetEntityMoveType;
-		internal static delegate* unmanaged[Cdecl]<int, int> __GetEntityMoveType;
-		private static int ___GetEntityMoveType(int entityHandle)
+		internal static delegate*<int, MoveType> GetEntityMoveType = &___GetEntityMoveType;
+		internal static delegate* unmanaged[Cdecl]<int, MoveType> __GetEntityMoveType;
+		private static MoveType ___GetEntityMoveType(int entityHandle)
 		{
-			int __retVal = __GetEntityMoveType(entityHandle);
+			MoveType __retVal = __GetEntityMoveType(entityHandle);
 			return __retVal;
 		}
 
@@ -3798,9 +4180,9 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose movement type is to be set.</param>
 		/// <param name="moveType">The new movement type to set for the entity.</param>
 
-		internal static delegate*<int, int, void> SetEntityMoveType = &___SetEntityMoveType;
-		internal static delegate* unmanaged[Cdecl]<int, int, void> __SetEntityMoveType;
-		private static void ___SetEntityMoveType(int entityHandle, int moveType)
+		internal static delegate*<int, MoveType, void> SetEntityMoveType = &___SetEntityMoveType;
+		internal static delegate* unmanaged[Cdecl]<int, MoveType, void> __SetEntityMoveType;
+		private static void ___SetEntityMoveType(int entityHandle, MoveType moveType)
 		{
 			__SetEntityMoveType(entityHandle, moveType);
 		}
@@ -3892,11 +4274,11 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose render mode is to be retrieved.</param>
 		/// <returns>The render mode of the entity, or 0 if the entity is invalid.</returns>
 
-		internal static delegate*<int, sbyte> GetEntityRenderMode = &___GetEntityRenderMode;
-		internal static delegate* unmanaged[Cdecl]<int, sbyte> __GetEntityRenderMode;
-		private static sbyte ___GetEntityRenderMode(int entityHandle)
+		internal static delegate*<int, RenderMode> GetEntityRenderMode = &___GetEntityRenderMode;
+		internal static delegate* unmanaged[Cdecl]<int, RenderMode> __GetEntityRenderMode;
+		private static RenderMode ___GetEntityRenderMode(int entityHandle)
 		{
-			sbyte __retVal = __GetEntityRenderMode(entityHandle);
+			RenderMode __retVal = __GetEntityRenderMode(entityHandle);
 			return __retVal;
 		}
 
@@ -3906,9 +4288,9 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose render mode is to be set.</param>
 		/// <param name="renderMode">The new render mode to set for the entity.</param>
 
-		internal static delegate*<int, sbyte, void> SetEntityRenderMode = &___SetEntityRenderMode;
-		internal static delegate* unmanaged[Cdecl]<int, sbyte, void> __SetEntityRenderMode;
-		private static void ___SetEntityRenderMode(int entityHandle, sbyte renderMode)
+		internal static delegate*<int, RenderMode, void> SetEntityRenderMode = &___SetEntityRenderMode;
+		internal static delegate* unmanaged[Cdecl]<int, RenderMode, void> __SetEntityRenderMode;
+		private static void ___SetEntityRenderMode(int entityHandle, RenderMode renderMode)
 		{
 			__SetEntityRenderMode(entityHandle, renderMode);
 		}
@@ -3946,11 +4328,11 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose team number is to be retrieved.</param>
 		/// <returns>The team number of the entity, or 0 if the entity is invalid.</returns>
 
-		internal static delegate*<int, int> GetTeamEntity = &___GetTeamEntity;
-		internal static delegate* unmanaged[Cdecl]<int, int> __GetTeamEntity;
-		private static int ___GetTeamEntity(int entityHandle)
+		internal static delegate*<int, CSTeam> GetTeamEntity = &___GetTeamEntity;
+		internal static delegate* unmanaged[Cdecl]<int, CSTeam> __GetTeamEntity;
+		private static CSTeam ___GetTeamEntity(int entityHandle)
 		{
-			int __retVal = __GetTeamEntity(entityHandle);
+			CSTeam __retVal = __GetTeamEntity(entityHandle);
 			return __retVal;
 		}
 
@@ -3960,9 +4342,9 @@ namespace s2sdk {
 		/// <param name="entityHandle">The handle of the entity whose team number is to be set.</param>
 		/// <param name="team">The new team number to set for the entity.</param>
 
-		internal static delegate*<int, int, void> SetTeamEntity = &___SetTeamEntity;
-		internal static delegate* unmanaged[Cdecl]<int, int, void> __SetTeamEntity;
-		private static void ___SetTeamEntity(int entityHandle, int team)
+		internal static delegate*<int, CSTeam, void> SetTeamEntity = &___SetTeamEntity;
+		internal static delegate* unmanaged[Cdecl]<int, CSTeam, void> __SetTeamEntity;
+		private static void ___SetTeamEntity(int entityHandle, CSTeam team)
 		{
 			__SetTeamEntity(entityHandle, team);
 		}
@@ -6930,19 +7312,19 @@ namespace s2sdk {
 		/// <param name="callback">The function to be called when the timer expires.</param>
 		/// <param name="flags">Flags that modify the behavior of the timer (e.g., no-map change, repeating).</param>
 		/// <param name="userData">An array intended to hold user-related data, allowing for elements of any type.</param>
-		/// <returns>A pointer to the newly created CTimer object, or nullptr if the timer could not be created.</returns>
+		/// <returns>A handle to the newly created CTimer object, or -1 if the timer could not be created.</returns>
 		/// <remarks>
 		/// Callback TimerCallback: This function is invoked when a timer event occurs. It handles the timer-related logic and performs necessary actions based on the event.
-		/// - Parameter timer: A 64-bit pointer to the timer object. This object contains the details of the timer, such as its current state, duration, and any associated data.
+		/// - Parameter timer: A handle to the timer object. This object contains the details of the timer, such as its current state, duration, and any associated data.
 		/// - Parameter userData: An array intended to hold user-related data, allowing for elements of any type.
 		/// - Returns: This function does not return any value. All necessary operations are performed directly during the callback. (void)
 		/// </remarks>
 
-		internal static delegate*<float, TimerCallback, int, object?[], nint> CreateTimer = &___CreateTimer;
-		internal static delegate* unmanaged[Cdecl]<float, nint, int, Vector192*, nint> __CreateTimer;
-		private static nint ___CreateTimer(float interval, TimerCallback callback, int flags, object?[] userData)
+		internal static delegate*<double, TimerCallback, TimerFlag, object?[], ulong> CreateTimer = &___CreateTimer;
+		internal static delegate* unmanaged[Cdecl]<double, nint, TimerFlag, Vector192*, ulong> __CreateTimer;
+		private static ulong ___CreateTimer(double interval, TimerCallback callback, TimerFlag flags, object?[] userData)
 		{
-			nint __retVal;
+			ulong __retVal;
 			var __callback = Marshalling.GetFunctionPointerForDelegate(callback);
 			var __userData = NativeMethods.ConstructVectorVariant(userData, userData.Length);
 
@@ -6959,11 +7341,11 @@ namespace s2sdk {
 		/// <summary>
 		/// Stops and removes an existing timer.
 		/// </summary>
-		/// <param name="timer">A pointer to the CTimer object to be stopped and removed.</param>
+		/// <param name="timer">A handle of the CTimer object to be stopped and removed.</param>
 
-		internal static delegate*<nint, void> KillsTimer = &___KillsTimer;
-		internal static delegate* unmanaged[Cdecl]<nint, void> __KillsTimer;
-		private static void ___KillsTimer(nint timer)
+		internal static delegate*<ulong, void> KillsTimer = &___KillsTimer;
+		internal static delegate* unmanaged[Cdecl]<ulong, void> __KillsTimer;
+		private static void ___KillsTimer(ulong timer)
 		{
 			__KillsTimer(timer);
 		}
@@ -6973,11 +7355,11 @@ namespace s2sdk {
 		/// </summary>
 		/// <returns>The tick interval value.</returns>
 
-		internal static delegate*<float> GetTickInterval = &___GetTickInterval;
-		internal static delegate* unmanaged[Cdecl]<float> __GetTickInterval;
-		private static float ___GetTickInterval()
+		internal static delegate*<double> GetTickInterval = &___GetTickInterval;
+		internal static delegate* unmanaged[Cdecl]<double> __GetTickInterval;
+		private static double ___GetTickInterval()
 		{
-			float __retVal = __GetTickInterval();
+			double __retVal = __GetTickInterval();
 			return __retVal;
 		}
 
@@ -7276,6 +7658,76 @@ namespace s2sdk {
 		private static void ___OnClientFullyConnect_Unregister(OnClientFullyConnectCallback callback)
 		{
 			__OnClientFullyConnect_Unregister(Marshal.GetFunctionPointerForDelegate(callback));
+		}
+
+		/// <summary>
+		/// Register callback to event.
+		/// </summary>
+		/// <param name="callback">Function callback.</param>
+		/// <remarks>
+		/// Callback OnClientSettingsChangedCallback: Called whenever the client's settings are changed.
+		/// - Parameter clientIndex: The client index
+		/// - Returns:  (void)
+		/// </remarks>
+
+		internal static delegate*<OnClientSettingsChangedCallback, void> OnClientSettingsChanged_Register = &___OnClientSettingsChanged_Register;
+		internal static delegate* unmanaged[Cdecl]<nint, void> __OnClientSettingsChanged_Register;
+		private static void ___OnClientSettingsChanged_Register(OnClientSettingsChangedCallback callback)
+		{
+			__OnClientSettingsChanged_Register(Marshal.GetFunctionPointerForDelegate(callback));
+		}
+
+		/// <summary>
+		/// Unregister callback to event.
+		/// </summary>
+		/// <param name="callback">Function callback.</param>
+		/// <remarks>
+		/// Callback OnClientSettingsChangedCallback: Called whenever the client's settings are changed.
+		/// - Parameter clientIndex: The client index
+		/// - Returns:  (void)
+		/// </remarks>
+
+		internal static delegate*<OnClientSettingsChangedCallback, void> OnClientSettingsChanged_Unregister = &___OnClientSettingsChanged_Unregister;
+		internal static delegate* unmanaged[Cdecl]<nint, void> __OnClientSettingsChanged_Unregister;
+		private static void ___OnClientSettingsChanged_Unregister(OnClientSettingsChangedCallback callback)
+		{
+			__OnClientSettingsChanged_Unregister(Marshal.GetFunctionPointerForDelegate(callback));
+		}
+
+		/// <summary>
+		/// Register callback to event.
+		/// </summary>
+		/// <param name="callback">Function callback.</param>
+		/// <remarks>
+		/// Callback OnClientAuthenticatedCallback: Called when a client is fully connected to the game.
+		/// - Parameter clientIndex: The client index
+		/// - Parameter steam: Steam account ID or 0 if not available.
+		/// - Returns:  (void)
+		/// </remarks>
+
+		internal static delegate*<OnClientAuthenticatedCallback, void> OnClientAuthenticated_Register = &___OnClientAuthenticated_Register;
+		internal static delegate* unmanaged[Cdecl]<nint, void> __OnClientAuthenticated_Register;
+		private static void ___OnClientAuthenticated_Register(OnClientAuthenticatedCallback callback)
+		{
+			__OnClientAuthenticated_Register(Marshal.GetFunctionPointerForDelegate(callback));
+		}
+
+		/// <summary>
+		/// Unregister callback to event.
+		/// </summary>
+		/// <param name="callback">Function callback.</param>
+		/// <remarks>
+		/// Callback OnClientAuthenticatedCallback: Called when a client receives an auth ID.
+		/// - Parameter clientIndex: The client index
+		/// - Parameter steam: Steam account ID or 0 if not available.
+		/// - Returns:  (void)
+		/// </remarks>
+
+		internal static delegate*<OnClientAuthenticatedCallback, void> OnClientAuthenticated_Unregister = &___OnClientAuthenticated_Unregister;
+		internal static delegate* unmanaged[Cdecl]<nint, void> __OnClientAuthenticated_Unregister;
+		private static void ___OnClientAuthenticated_Unregister(OnClientAuthenticatedCallback callback)
+		{
+			__OnClientAuthenticated_Unregister(Marshal.GetFunctionPointerForDelegate(callback));
 		}
 
 		/// <summary>
@@ -7677,9 +8129,9 @@ namespace s2sdk {
 		/// <param name="delay">Time (in seconds) to delay before the next round starts.</param>
 		/// <param name="reason">The reason for ending the round, defined by the CSRoundEndReason enum.</param>
 
-		internal static delegate*<float, int, void> TerminateRound = &___TerminateRound;
-		internal static delegate* unmanaged[Cdecl]<float, int, void> __TerminateRound;
-		private static void ___TerminateRound(float delay, int reason)
+		internal static delegate*<float, CSRoundEndReason, void> TerminateRound = &___TerminateRound;
+		internal static delegate* unmanaged[Cdecl]<float, CSRoundEndReason, void> __TerminateRound;
+		private static void ___TerminateRound(float delay, CSRoundEndReason reason)
 		{
 			__TerminateRound(delay, reason);
 		}
