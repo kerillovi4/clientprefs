@@ -1,5 +1,4 @@
-﻿using clientprefs.Database.Table;
-using Plugify;
+﻿using Plugify;
 using static s2sdk.s2sdk;
 
 namespace clientprefs
@@ -7,6 +6,7 @@ namespace clientprefs
     public unsafe class Api
     {
         private static List<Delegate> _forwards = new List<Delegate>();
+        private static DbService _dbService { get => Main.Instance.DbService; }
 
         public delegate void OnClientCookiesCachedCallback(int clientIndex);
 
@@ -30,41 +30,22 @@ namespace clientprefs
 
         public static int RegisterClientCookie(string name, string description)
         {
-            return Main.Instance.DbService.RegisterClientCookie(name, description);
+            return _dbService.RegisterClientCookie(name, description);
         }
 
         public static void SetClientCookie(int cookieId, int clientIndex, string value)
         {
-            Main.Instance.DbService.SetClientCookie(cookieId, GetClientAccountId(clientIndex), value);
+            _dbService.SetClientCookie(cookieId, GetClientAccountId(clientIndex), value);
         }
 
         public static string GetClientCookie(int cookieId, int clientIndex)
         {
-            ulong accountId = GetClientAccountId(clientIndex);
-
-            if(AreClientCookiesCachedLocal(accountId) == false)
-            {
-                return string.Empty;
-            }
-
-            UserCookie? userCookie = Main.Instance.Users[accountId].FirstOrDefault(x => x.cookieId == cookieId);
-
-            if(userCookie == null)
-            {
-                return string.Empty;
-            }
-
-            return userCookie.value;
+            return _dbService.GetClientCookie(cookieId, GetClientAccountId(clientIndex));
         }
 
         public static Bool8 AreClientCookiesCached(int clientIndex)
         {
-            return Main.Instance.Users.ContainsKey(GetClientAccountId(clientIndex));
-        }
-
-        private static bool AreClientCookiesCachedLocal(ulong accountId)
-        {
-            return Main.Instance.Users.ContainsKey(accountId);
+            return _dbService.AreClientCookiesCached(clientIndex);
         }
     }
 }

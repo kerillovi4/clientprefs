@@ -1,5 +1,4 @@
 ﻿using clientprefs.Config;
-using clientprefs.Database.Table;
 using Plugify;
 using static s2sdk.s2sdk;
 
@@ -11,7 +10,6 @@ namespace clientprefs
         public static Main Instance => _instance;
 
         public DbService DbService { get; private set; }
-        public Dictionary<ulong, List<UserCookie>> Users { get; } = new Dictionary<ulong, List<UserCookie>>();
 
         public Main()
         {
@@ -34,10 +32,7 @@ namespace clientprefs
                 return;
             }
 
-            ulong accountId = GetClientAccountId(clientIndex);
-
-            Users[accountId] = DbService.GetClientCookies(accountId);
-            Api.OnClientCookiesCached_Invoke(clientIndex);
+            DbService.LoadClientCookie(clientIndex);
         }
 
         private void OnClientDisconnect_PostCallback(int clientIndex, int reason)
@@ -47,7 +42,7 @@ namespace clientprefs
                 return;
             }
 
-            Users.Remove(GetClientAccountId(clientIndex));
+            DbService.ClearClientCookie(clientIndex);
         }
     }
 }

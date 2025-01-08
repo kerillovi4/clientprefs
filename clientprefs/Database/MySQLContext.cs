@@ -1,25 +1,100 @@
 ﻿using clientprefs.Config;
-using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.Common;
 
 namespace clientprefs.Database
 {
-    //Add-Migration init -Context MySQLContext -OutputDir Migrations/MySQLMigrations
-
-    public class MySQLContext : DatabaseContext
+    internal class MySQLContext : IDisposable, IDatabase
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        private MySqlConnection _connection;
+
+        public string GET_VALID_COOKIES_QUERY { get => "select * from cookie"; }
+        public string GET_CLIENT_COOKIE_QUERY { get => "select * from user_cookie where account_id = @accountId"; }
+        public string INSERT_COOKIE_QUERY { get => "insert into cookie (name, description) values (@name, @description)"; }
+        public string INSERT_OR_UPDATE_CLIENT_COOKIE_QUERY { get => "insert into user_cookie (account_id, cookie_id, value) values (@accountId, @cookieId, @value) on duplicate key update value = @value"; }
+        public Dictionary<string, object> Parameters { get; init; }
+
+        public MySQLContext(AppSettings appSettings)
         {
-            string query;
+            string connectionString = string.Format("server = {0}; port = {1}; user = {2}; password = {3}; database = {4};", appSettings.host, appSettings.port, appSettings.user, appSettings.pass, appSettings.database);
+            _connection = new MySqlConnection(connectionString);
+            _connection.Open();
 
-#if DEBUG
-            query = "server = localhost; port = 3306; user = localhost; password = localhost; database = localhost;";
-#else
-            AppSettings appSettings = AppSettings.Instance;
+            Parameters = new Dictionary<string, object>();
+        }
 
-            query = string.Format("server = {0}; port = {1}; user = {2}; password = {3}; database = {4};", appSettings.host, appSettings.port, appSettings.user, appSettings.pass, appSettings.database);
-#endif
+        public void Dispose()
+        {
+            if(_connection.State == ConnectionState.Open)
+            {
+                _connection.Close();
+                _connection.Dispose();
+            }
+        }
 
-            optionsBuilder.UseMySQL(query);
+        public void InitDatabase()
+        {
+            MySqlTransaction transaction = _connection.BeginTransaction();
+
+            using(MySqlCommand command = new MySqlCommand("create table if not exists cookie (id int(11) not null auto_increment, name varchar(64) not null, description varchar(512) null, primary key (id)) default charset = utf8mb4", _connection, transaction))
+            {
+                command.ExecuteNonQuery();
+            }
+            using(MySqlCommand command = new MySqlCommand("create table if not exists user_cookie (account_id bigint(20) unsigned not null, cookie_id int(11) not null, value longtext not null, primary key (account_id, cookie_id), index ix_user_cookie_cookie_id (cookie_id), constraint fk_user_cookie_cookie_cookie_id foreign key (cookie_id) references cookie (id) on update restrict on delete cascade) default charset = utf8mb4", _connection, transaction))
+            {
+                command.ExecuteNonQuery();
+            }
+
+            transaction.Commit();
+            transaction.Dispose();
+        }
+
+        public int ExecuteNonQuery(string query)
+        {
+            using MySqlCommand command = new MySqlCommand(query, _connection);
+            command.AddParameres(Parameters);
+            int result = command.ExecuteNonQuery();
+
+            Parameters.Clear();
+
+            return result;
+        }
+
+        public DbDataReader ExecuteReader(string query)
+        {
+            using MySqlCommand command = new MySqlCommand(query, _connection);
+            command.AddParameres(Parameters);
+            DbDataReader result = command.ExecuteReader();
+
+            Parameters.Clear();
+
+            return result;
+        }
+
+        public object? ExecuteScalar(string query)
+        {
+            using MySqlCommand command = new MySqlCommand(query, _connection);
+            command.AddParameres(Parameters);
+            object? reuslt = command.ExecuteScalar();
+
+            Parameters.Clear();
+
+            return reuslt;
+        }
+
+        public DataTable ExecuteTable(string query)
+        {
+            using MySqlCommand command = new MySqlCommand(query, _connection);
+            command.AddParameres(Parameters);
+
+            using MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+
+            Parameters.Clear();
+
+            return table;
         }
     }
 }
