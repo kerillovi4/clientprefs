@@ -6,7 +6,7 @@ namespace clientprefs
 {
     public unsafe class Api
     {
-        private static List<object> _forwards = new List<object>();
+        private static List<Delegate> _forwards = new List<Delegate>();
 
         public delegate void OnClientCookiesCachedCallback(int clientIndex);
 
@@ -25,7 +25,7 @@ namespace clientprefs
 
         public static void OnClientCookiesCached_Invoke(int clientIndex)
         {
-            _forwards.ForEach(x => ((Delegate)x).DynamicInvoke(clientIndex));
+            _forwards.ForEach(x => x.DynamicInvoke(clientIndex));
         }
 
         public static int RegisterClientCookie(string name, string description)
