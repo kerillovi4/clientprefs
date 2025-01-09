@@ -5,18 +5,16 @@ using System.Data.Common;
 
 namespace clientprefs.Database
 {
-    internal class MySQLContext : IDisposable, IDatabase
+    internal class MySQLContext : IDatabase
     {
         private MySqlConnection _connection;
 
-        public string GET_VALID_COOKIES_QUERY { get => "select * from cookie"; }
-        public string GET_CLIENT_COOKIE_QUERY { get => "select * from user_cookie where account_id = @accountId"; }
-        public string INSERT_COOKIE_QUERY { get => "insert into cookie (name, description) values (@name, @description)"; }
-        public string INSERT_OR_UPDATE_CLIENT_COOKIE_QUERY { get => "insert into user_cookie (account_id, cookie_id, value) values (@accountId, @cookieId, @value) on duplicate key update value = @value"; }
         public Dictionary<string, object> Parameters { get; init; }
 
-        public MySQLContext(AppSettings appSettings)
+        public MySQLContext()
         {
+            AppSettings appSettings = AppSettings.Instance;
+
             string connectionString = string.Format("server = {0}; port = {1}; user = {2}; password = {3}; database = {4};", appSettings.host, appSettings.port, appSettings.user, appSettings.pass, appSettings.database);
             _connection = new MySqlConnection(connectionString);
             _connection.Open();
@@ -95,6 +93,11 @@ namespace clientprefs.Database
             Parameters.Clear();
 
             return table;
+        }
+
+        public string GetQueryInsertOrUpdateClientCookie()
+        {
+            return string.Format("insert into user_cookie{0} (account_id, cookie_id, value) values (@accountId, @cookieId, @value) on duplicate key update value = @value", AppSettings.Instance.database_prefix);
         }
     }
 }

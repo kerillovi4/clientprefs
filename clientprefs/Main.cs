@@ -25,6 +25,11 @@ namespace clientprefs
             OnClientDisconnect_Post_Register(OnClientDisconnect_PostCallback);
         }
 
+        public void OnPluginEnd()
+        {
+            DbService?.Dispose();
+        }
+
         private void OnClientPutInServerCallback(int clientIndex)
         {
             if(IsFakeClient(clientIndex))

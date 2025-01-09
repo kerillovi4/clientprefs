@@ -6,7 +6,7 @@ using static s2sdk.s2sdk;
 
 namespace clientprefs
 {
-    public unsafe class DbService
+    public unsafe class DbService : IDisposable
     {
         private IDatabase _databaseContext;
         private Dictionary<int, Cookie> _availableCookies;
@@ -23,20 +23,23 @@ namespace clientprefs
             _availableCookies = GetAvailableCookies();
         }
 
+        public void Dispose()
+        {
+            _databaseContext.Dispose();
+        }
+
         private IDatabase GetContext()
         {
-            AppSettings appSettings = AppSettings.Instance;
-
-            switch(appSettings.driver)
+            switch(AppSettings.Instance.driver)
             {
                 case AppSettings.DriverMySQL:
-                    return new MySQLContext(appSettings);
+                    return new MySQLContext();
 
                 case AppSettings.DriverNpgsql:
-                    return new NpgsqlContext(appSettings);
+                    return new NpgsqlContext();
 
                 case AppSettings.DriverSqlite:
-                    return new SqliteContext(appSettings);
+                    return new SqliteContext();
             }
 
             throw new NotSupportedException(AppSettings.Instance.driver);
@@ -44,7 +47,7 @@ namespace clientprefs
 
         private Dictionary<int, Cookie> GetAvailableCookies()
         {
-            DataTable table = _databaseContext.ExecuteTable(_databaseContext.GET_VALID_COOKIES_QUERY);
+            DataTable table = _databaseContext.ExecuteTable(_databaseContext.GetQueryValidCookies());
             return table.AsEnumerable().Select(x => new Cookie(x)).ToDictionary(k => k.id, v => v);
         }
 
@@ -53,7 +56,7 @@ namespace clientprefs
             ulong accountId = GetClientAccountId(clientIndex);
 
             _databaseContext.Parameters["@accountId"] = accountId;
-            DataTable table = _databaseContext.ExecuteTable(_databaseContext.GET_CLIENT_COOKIE_QUERY);
+            DataTable table = _databaseContext.ExecuteTable(_databaseContext.GetQueryClientCookie());
             Users[accountId] = table.AsEnumerable().Select(x => new UserCookie(x)).ToList();
 
             Api.OnClientCookiesCached_Invoke(clientIndex);
@@ -72,7 +75,7 @@ namespace clientprefs
             {
                 _databaseContext.Parameters["@name"] = name;
                 _databaseContext.Parameters["@description"] = description;
-                cookieId = _databaseContext.ExecuteNonQuery(_databaseContext.INSERT_COOKIE_QUERY);
+                cookieId = _databaseContext.ExecuteNonQuery(_databaseContext.GetQueryInsertCookie());
 
                 _availableCookies[cookieId] = new Cookie(cookieId, name, description);
             }
@@ -102,7 +105,7 @@ namespace clientprefs
             _databaseContext.Parameters["@accountId"] = userCookie.accountId;
             _databaseContext.Parameters["@cookieId"] = userCookie.cookieId;
             _databaseContext.Parameters["@value"] = userCookie.value;
-            _databaseContext.ExecuteNonQuery(_databaseContext.INSERT_OR_UPDATE_CLIENT_COOKIE_QUERY);
+            _databaseContext.ExecuteNonQuery(_databaseContext.GetQueryInsertOrUpdateClientCookie());
         }
 
         public string GetClientCookie(int cookieId, ulong accountId)

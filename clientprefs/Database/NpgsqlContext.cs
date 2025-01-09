@@ -5,18 +5,16 @@ using System.Data.Common;
 
 namespace clientprefs.Database
 {
-    public class NpgsqlContext : IDisposable, IDatabase
+    public class NpgsqlContext : IDatabase
     {
         private NpgsqlConnection _connection;
 
-        public string GET_VALID_COOKIES_QUERY { get => "select * from cookie"; }
-        public string GET_CLIENT_COOKIE_QUERY { get => "select * from user_cookie where account_id = @accountId"; }
-        public string INSERT_COOKIE_QUERY { get => "insert into cookie (name, description) values (@name, @description)"; }
-        public string INSERT_OR_UPDATE_CLIENT_COOKIE_QUERY { get => "insert into user_cookie (account_id, cookie_id, value) values (@accountId, @cookieId, @value) on conflict (account_id, cookie_id) do update set value = excluded.value"; }
         public Dictionary<string, object> Parameters { get; init; }
 
-        public NpgsqlContext(AppSettings appSettings)
+        public NpgsqlContext()
         {
+            AppSettings appSettings = AppSettings.Instance;
+
             string connectionString = string.Format("Server = {0}; Port = {1}; User Id = {2}; Password = {3}; Database = {4}", appSettings.host, appSettings.port, appSettings.user, appSettings.pass, appSettings.database);
             _connection = new NpgsqlConnection(connectionString);
             _connection.Open();
@@ -95,6 +93,11 @@ namespace clientprefs.Database
             Parameters.Clear();
 
             return table;
+        }
+
+        public string GetQueryInsertOrUpdateClientCookie()
+        {
+            return string.Format("insert into {0}user_cookie{1} (account_id, cookie_id, value) values (@accountId, @cookieId, @value) on conflict (account_id, cookie_id) do update set value = excluded.value", AppSettings.Instance.database_schema, AppSettings.Instance.database_prefix);
         }
     }
 }

@@ -14,6 +14,8 @@ namespace clientprefs.Config
         public string driver { get; set; }
         public string host { get; set; }
         public string database { get; set; }
+        public string database_prefix { get; set; }
+        public string database_schema { get; set; }
         public string user { get; set; }
         public string pass { get; set; }
         public int port { get; set; }

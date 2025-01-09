@@ -5,17 +5,13 @@ using System.Data.Common;
 
 namespace clientprefs.Database
 {
-    public class SqliteContext : IDisposable, IDatabase
+    public class SqliteContext : IDatabase
     {
         private SqliteConnection _connection;
 
-        public string GET_VALID_COOKIES_QUERY { get => "select * from cookie"; }
-        public string GET_CLIENT_COOKIE_QUERY { get => "select * from user_cookie where account_id = @accountId"; }
-        public string INSERT_COOKIE_QUERY { get => "insert into cookie (name, description) values (@name, @description)"; }
-        public string INSERT_OR_UPDATE_CLIENT_COOKIE_QUERY { get => "insert or replace into user_cookie (account_id, cookie_id, value) values (@accountId, @cookieId, @value)"; }
         public Dictionary<string, object> Parameters { get; init; }
 
-        public SqliteContext(AppSettings appSettings)
+        public SqliteContext()
         {
             string path = Path.Combine(Main.Instance.BaseDir, "database");
 
@@ -103,6 +99,11 @@ namespace clientprefs.Database
             Parameters.Clear();
 
             return table;
+        }
+
+        public string GetQueryInsertOrUpdateClientCookie()
+        {
+            return string.Format("insert or replace into user_cookie{0} (account_id, cookie_id, value) values (@accountId, @cookieId, @value)", AppSettings.Instance.database_prefix);
         }
     }
 }
