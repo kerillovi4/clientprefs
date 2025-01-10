@@ -1,0 +1,19 @@
+{
+  "content": {
+    "clientprefs": {
+      "name": "clientprefs",
+      "type": "plugin",
+      "author": "Faya™",
+      "description": "Client Preferences.",
+      "versions": [
+        {
+          "version": 1,
+          "checksum": "",
+          "download": "https://github.com/kerillovi4/clientprefs/releases/download/v1.0/clientprefs.zip",
+          "platforms": [
+          ]
+        }
+      ]
+    }
+  }
+}
