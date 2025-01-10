@@ -1,5 +1,13 @@
 # Source2 Client Preferences Plugin
 
+### Supported databases
+
+- SQLite
+- MySQL
+- PostgreSQL
+
+Available field **driver** [values](https://github.com/kerillovi4/clientprefs/blob/master/clientprefs/Config/AppSettings.cs#L7)
+
 ### Dependencies
 
 - Plugify Framework Installed
@@ -7,6 +15,7 @@
 - [Source2 SDK Plugin](https://github.com/untrustedmodders/plugify-source-2)
 
 ### API
+
 ```C#
 delegate void OnClientCookiesCachedCallback(int clientIndex);
 
