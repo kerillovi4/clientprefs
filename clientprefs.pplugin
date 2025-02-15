@@ -1,0 +1,160 @@
+{
+	"$schema": "https://raw.githubusercontent.com/untrustedmodders/plugify/refs/heads/main/schemas/plugin.schema.json",
+	"fileVersion": 1,
+	"version": "1.0",
+	"friendlyName": "Client Preferences",
+	"description": "Client Preferences",
+	"createdBy": "Faya™",
+	"createdByURL": "https://github.com/kerillovi4",
+	"docsURL": "",
+	"downloadURL": "https://github.com/kerillovi4/clientprefs/releases/download/v1.0/clientprefs.zip",
+	"updateURL": "https://raw.githubusercontent.com/kerillovi4/clientprefs/refs/heads/master/update.json",
+	"entryPoint": "bin/clientprefs.dll",
+	"supportedPlatforms": [],
+	"languageModule": {
+		"name": "csharp-dotnet"
+	},
+	"dependencies": [
+		{
+			"name": "s2sdk"
+		}
+	],
+	"exportedMethods": [
+		{
+			"name": "OnClientCookiesCached_Register",
+			"description": "Subscribe to an event that is called after the client's cookie is loaded from the database.",
+			"funcName": "clientprefs.Api.OnClientCookiesCached_Register",
+			"paramTypes": [
+				{
+					"name": "callback",
+					"type": "function",
+					"prototype": {
+						"name": "OnClientCookiesCachedCallback",
+						"paramTypes": [
+							{
+								"name": "clientIndex",
+								"description": "Client index.",
+								"type": "int32"
+							}
+						],
+						"retType": {
+							"type": "void"
+						}
+					}
+				}
+			],
+			"retType": {
+				"type": "void"
+			}
+		},
+		{
+			"name": "OnClientCookiesCached_UnRegister",
+			"description": "Unsubscribe to an event that is called after loading the client's cookie from the database.",
+			"funcName": "clientprefs.Api.OnClientCookiesCached_UnRegister",
+			"paramTypes": [
+				{
+					"name": "callback",
+					"type": "function",
+					"prototype": {
+						"name": "OnClientCookiesCachedCallback",
+						"paramTypes": [
+							{
+								"name": "clientIndex",
+								"description": "Client index.",
+								"type": "int32"
+							}
+						],
+						"retType": {
+							"type": "void"
+						}
+					}
+				}
+			],
+			"retType": {
+				"type": "void"
+			}
+		},
+		{
+			"name": "RegisterClientCookie",
+			"description": "Creates a new Client preference cookie.",
+			"funcName": "clientprefs.Api.RegisterClientCookie",
+			"paramTypes": [
+				{
+					"name": "name",
+					"description": "Name of the new preference cookie.",
+					"type": "string"
+				},
+				{
+					"name": "description",
+					"description": "Optional description of the preference cookie.",
+					"type": "string"
+				}
+			],
+			"retType": {
+				"description": "A id to the newly created cookie. If the cookie already exists, a id to it will still be returned.",
+				"type": "int32"
+			}
+		},
+		{
+			"name": "SetClientCookie",
+			"description": "Set the value of a Client preference cookie.",
+			"funcName": "clientprefs.Api.SetClientCookie",
+			"paramTypes": [
+				{
+					"name": "cookieId",
+					"description": "Client preference cookie id.",
+					"type": "int32"
+				},
+				{
+					"name": "clientIndex",
+					"description": "Client index.",
+					"type": "int32"
+				},
+				{
+					"name": "value",
+					"description": "String value to set.",
+					"type": "string"
+				}
+			],
+			"retType": {
+				"type": "void"
+			}
+		},
+		{
+			"name": "GetClientCookie",
+			"description": "Retrieve the value of a Client preference cookie.",
+			"funcName": "clientprefs.Api.GetClientCookie",
+			"paramTypes": [
+				{
+					"name": "cookieId",
+					"description": "Client preference cookie id.",
+					"type": "int32"
+				},
+				{
+					"name": "clientIndex",
+					"description": "Client index.",
+					"type": "int32"
+				}
+			],
+			"retType": {
+				"type": "string"
+			}
+		},
+		{
+			"name": "AreClientCookiesCached",
+			"description": "Checks if a clients cookies have been loaded from the database.",
+			"funcName": "clientprefs.Api.AreClientCookiesCached",
+			"paramTypes": [
+				{
+					"name": "clientIndex",
+					"description": "Client index.",
+					"type": "int32"
+				}
+			],
+			"retType": {
+				"description": "True if loaded, false otherwise.",
+				"type": "bool"
+			}
+		}
+	]
+}
